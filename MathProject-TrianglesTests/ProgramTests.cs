@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace MathProject_Triangles.Tests
 {
@@ -14,12 +15,25 @@ namespace MathProject_Triangles.Tests
         [TestMethod()]
         public void generatePointTest()
         {
-            double radius = (new Random()).NextDouble() * 100;
+            double[] samples = new double[3000];
+            for (int i=0;i<samples.Length;i+=3)
+            {
+                double[] point=Program.generatePoint();
+                samples[i] = point[0];
+                samples[i+1] = point[1];
+                samples[i+2] = point[2];
+            }
+            writeCSV(samples);
+        }
 
-            double[] point = Program.generatePoint(radius);
-            double obtainedResult = Math.Pow(point[0], 2) + Math.Pow(point[1], 2) + Math.Pow(point[2], 2);
-
-            Assert.AreEqual(Math.Pow(radius, 2), obtainedResult);
+        private void writeCSV(double[] toWrite)
+        {
+            StreamWriter writer = new StreamWriter((new FileStream("randomValues.csv",FileMode.Create)));
+            foreach(var line in toWrite)
+            {
+                writer.WriteLine(line.ToString() + ';');
+            }
+            writer.Close();
         }
     }
 }
