@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathProject-Triangles", "MathProject-Triangles\MathProject-Triangles.csproj", "{1325DACF-23B4-495D-8790-93D64CC2DCF4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathProject", "MathProject-Triangles\MathProject.csproj", "{1325DACF-23B4-495D-8790-93D64CC2DCF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathProject-TrianglesTests", "MathProject-TrianglesTests\MathProject-TrianglesTests.csproj", "{81F66209-6420-44D5-B508-D5CD774CABE3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathProjectTests", "MathProject-TrianglesTests\MathProjectTests.csproj", "{81F66209-6420-44D5-B508-D5CD774CABE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

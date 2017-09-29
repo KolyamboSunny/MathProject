@@ -13,12 +13,12 @@ namespace MathProject_Triangles.Tests
     public class ProgramTests
     {
         [TestMethod()]
-        public void generatePointTest()
+        public void generateVectorTest()
         {
             double[] samples = new double[3000];
             for (int i=0;i<samples.Length;i+=3)
             {
-                double[] point=Program.generatePoint();
+                double[] point=Program.generateVector(3);
                 samples[i] = point[0];
                 samples[i+1] = point[1];
                 samples[i+2] = point[2];
