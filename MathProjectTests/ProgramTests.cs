@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+
+using MathNet.Numerics.LinearAlgebra;
+
 using MathProject.Entities;
 
 namespace MathProject_Triangles.Tests
@@ -54,32 +57,27 @@ namespace MathProject_Triangles.Tests
             for (int i = 0; i < result.Length; i++)
                 for(int j=0;j<result[i].Length;j++)
                     Assert.AreEqual(result[i][j], answer[i][j], precision);
-                
-        }
-        [TestMethod()]
-        public void GramSchmidtTestFor1Vector()
-        {
-            //checking against WolframAlpha Orthogonalize[] function
-            double[] vector1 = { 1, 2, 3 };
-            double[] vector2 = { 2, 3, 4 };
-            double[][] result = new double[][] { Program.GramSchmidt(new double[][] { vector1 })[0], Program.GramSchmidt(new double[][] { vector2 })[0] };
 
-            double[][] answer = new double[][]{
-                                    new double[]{1.0/Math.Sqrt(14.0),Math.Sqrt(2.0/7.0),3.0/Math.Sqrt(14.0) },
-                                    new double[]{4.0/Math.Sqrt(21.0),1.0/Math.Sqrt(21.0),-2.0/Math.Sqrt(21.0) },
-                                };
-            double precision = 0.001;
+            //checking against identity matrix equation
+            vector1 = Program.generateVector(5);
+            vector2 = Program.generateVector(5);
+            result = Program.GramSchmidt(new double[][] { vector1, vector2 });
 
-            for (int i = 0; i < result.Length; i++)
-                for (int j = 0; j < result[i].Length; j++)
-                    Assert.AreEqual(result[i][j], answer[i][j], precision);
+            Matrix<double> resultMatrix = Matrix<double>.Build.DenseOfColumnArrays(result);
+            Matrix<double> transpose = resultMatrix.Transpose();
+            Matrix<double> identity = transpose.Multiply(resultMatrix);
+          
+            double[][] identityArrayAnswer = new double[2][] { new double[] { 1, 0 }, new double[] { 0, 1 } };
+            for (int i = 0; i < identity.RowCount; i++)
+                for (int j = 0; j < identity.ColumnCount; j++)
+                    Assert.AreEqual(identity[i,j], identityArrayAnswer[i][j],precision);
 
         }
 
         [TestMethod()]
         public void TriangleTest()
         {
-            long sampleSize = 100000;
+            long sampleSize = 10000;
             long areObtuse = 0;
             for (long i = sampleSize; i > 0; i--)
             {
