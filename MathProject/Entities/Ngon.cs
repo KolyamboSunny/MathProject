@@ -16,24 +16,14 @@ namespace MathProject.Entities
             double[] cumulative = new double[] { 0, 0 };
             foreach (double[] entry in edgeVectors)
             {
+                Vertex from = new Vertex(cumulative[0], cumulative[1]);
+                Verticies.Add(from);
                 cumulative[0] += entry[0];
                 cumulative[1] += entry[1];
-                Verticies.Add(new Vertex(cumulative[0], cumulative[1] ));
+                Vertex to = new Vertex(cumulative[0], cumulative[1]);
+                Edges.Add(new Edge(to, from));
             }
-            Vertex from = null;
-            foreach (Vertex to in Verticies)
-            {
-                try
-                {
-                    Edge edge = new Edge(from, to);
-                    Edges.Add(edge);
-                }
-                catch (Exception e) { }
-                from = to;
-            }
-            Vertex close = Verticies[0];
-            Edge lastEdge = new Edge(from, close);
-            Edges.Add(lastEdge);
+            if (Math.Round(cumulative[0],8) != 0 && Math.Round(cumulative[1], 8) != 0) throw (new Exception("Ngon is not closed!"));
         }
     }
 

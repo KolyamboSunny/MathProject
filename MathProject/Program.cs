@@ -20,7 +20,7 @@ namespace MathProject_Triangles
 
             Console.Read();
         }
-        public static Ngon generteRandomNgon(int n)
+        public static Ngon generateRandomNgon(int n)
         {
             double[] vector1 = generateVector(n);
             double[] vector2 = generateVector(n);

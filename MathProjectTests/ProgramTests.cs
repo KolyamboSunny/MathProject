@@ -46,16 +46,16 @@ namespace MathProject_Triangles.Tests
             //checking against WolframAlpha Orthogonalize[] function
             double[] vector1 = { 1, 2, 3 };
             double[] vector2 = { 2, 3, 4 };
-            double[][] result = Program.GramSchmidt(new double[][]{ vector1,vector2});
+            double[][] result = Program.GramSchmidt(new double[][] { vector1, vector2 });
 
-            double[][] answer = new double[][]{ 
+            double[][] answer = new double[][]{
                                     new double[]{1.0/Math.Sqrt(14.0),Math.Sqrt(2.0/7.0),3.0/Math.Sqrt(14.0) },
                                     new double[]{4.0/Math.Sqrt(21.0),1.0/Math.Sqrt(21.0),-2.0/Math.Sqrt(21.0) },
                                 };
             double precision = 0.001;
 
             for (int i = 0; i < result.Length; i++)
-                for(int j=0;j<result[i].Length;j++)
+                for (int j = 0; j < result[i].Length; j++)
                     Assert.AreEqual(result[i][j], answer[i][j], precision);
 
             //checking against identity matrix equation
@@ -66,11 +66,11 @@ namespace MathProject_Triangles.Tests
             Matrix<double> resultMatrix = Matrix<double>.Build.DenseOfColumnArrays(result);
             Matrix<double> transpose = resultMatrix.Transpose();
             Matrix<double> identity = transpose.Multiply(resultMatrix);
-          
+
             double[][] identityArrayAnswer = new double[2][] { new double[] { 1, 0 }, new double[] { 0, 1 } };
             for (int i = 0; i < identity.RowCount; i++)
                 for (int j = 0; j < identity.ColumnCount; j++)
-                    Assert.AreEqual(identity[i,j], identityArrayAnswer[i][j],precision);
+                    Assert.AreEqual(identity[i, j], identityArrayAnswer[i][j], precision);
 
         }
 
@@ -81,14 +81,15 @@ namespace MathProject_Triangles.Tests
             long areObtuse = 0;
             for (long i = sampleSize; i > 0; i--)
             {
-                Ngon ngon = Program.generteRandomNgon(3);
+                Ngon ngon = Program.generateRandomNgon(3);
                 Triangle t = new Triangle(ngon);
                 if (t.isObtuse) areObtuse++;
             }
             double percentObtuse = (double)areObtuse / sampleSize * 100;
-            Assert.AreEqual(percentObtuse, 83.8093, 0.01);   
+            Assert.AreEqual(percentObtuse, 83.8093, 0.01);
         }
+
     }
 
-    
+
 }
