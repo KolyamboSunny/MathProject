@@ -77,7 +77,7 @@ namespace MathProject_Triangles.Tests
         [TestMethod()]
         public void TriangleTest()
         {
-            long sampleSize = 10000;
+            long sampleSize = 1000000;
             long areObtuse = 0;
             for (long i = sampleSize; i > 0; i--)
             {
@@ -86,7 +86,7 @@ namespace MathProject_Triangles.Tests
                 if (t.isObtuse) areObtuse++;
             }
             double percentObtuse = (double)areObtuse / sampleSize * 100;
-            Assert.AreEqual(percentObtuse, 83.8093, 0.01);
+            Assert.AreEqual(percentObtuse, 83.8093, 1);
         }
 
     }

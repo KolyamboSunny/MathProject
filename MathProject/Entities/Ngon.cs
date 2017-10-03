@@ -67,7 +67,7 @@ namespace MathProject.Entities
         }
         public Edge(Vertex vertex1, Vertex vertex2)
         {
-            this.length = Math.Sqrt(Math.Pow(vertex1.coordX, 2) + Math.Pow(vertex1.coordY, 2) + Math.Pow(vertex2.coordX, 2) + Math.Pow(vertex2.coordY, 2));
+            this.length = Math.Sqrt( Math.Pow(vertex2.coordX- vertex1.coordX, 2) + Math.Pow(vertex2.coordY- vertex1.coordY, 2));
             this.vertex1 = vertex1;
             this.vertex2 = vertex2;
         }
