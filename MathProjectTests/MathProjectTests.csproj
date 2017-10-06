@@ -39,6 +39,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MathNet.Numerics, Version=3.20.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MathNet.Numerics.3.20.0\lib\net40\MathNet.Numerics.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\MSTest.TestFramework.1.1.11\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
     </Reference>
@@ -56,6 +59,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Entities\EdgeTests.cs" />
+    <Compile Include="Entities\NgonTests.cs" />
+    <Compile Include="Entities\TriangleTests.cs" />
     <Compile Include="ProgramTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -63,7 +69,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MathProject-Triangles\MathProject.csproj">
+    <ProjectReference Include="..\MathProject\MathProject.csproj">
       <Project>{1325DACF-23B4-495D-8790-93D64CC2DCF4}</Project>
       <Name>MathProject</Name>
     </ProjectReference>
