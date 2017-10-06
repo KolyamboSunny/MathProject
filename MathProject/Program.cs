@@ -7,6 +7,7 @@ using Accord.Statistics.Distributions.Univariate;
 using Accord.Math.Decompositions;
 using MathNet.Numerics.LinearAlgebra;
 using MathProject.Entities;
+using System.IO;
 
 namespace MathProject_Triangles
 {
@@ -14,12 +15,61 @@ namespace MathProject_Triangles
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Calculate average distances between ngon verticies");
             Console.WriteLine("How many dimensions are we working with?");
             int n = Int32.Parse(Console.ReadLine());
-            
+             
+            Console.WriteLine("How big is the sample size?");
+            long sampleSize = Int64.Parse(Console.ReadLine());
 
+            double[] rawLengths = new double[n];
+            for (long i = sampleSize; i > 0; i--)
+            {
+                if (i % 1000 == 0) Console.WriteLine(i + " | " + sampleSize);
+                Ngon ngon = generateRandomNgon(n);
+
+                Vertex origin = ngon.Verticies[0];
+                for (int j = 1; j < ngon.Verticies.Count; j++)
+                {
+                    Vertex to = ngon.Verticies[j];
+                    if (to != origin)
+                    {
+                        Edge diagonal = new Edge(origin, to);
+                        rawLengths[j] += Math.Pow(diagonal.length, 2);
+                    }
+                }
+            }
+            double k = 0;
+            double maxerror = 0;
+            foreach (double length in rawLengths)
+            {
+                double average = length / sampleSize;
+                double expected = (8 * k * (n - k) / ((n - 1.00) * n * (n + 2.00)));
+                k++;
+                double error = (average - expected) / expected * 100;
+                if (error > maxerror) maxerror = error;
+                Console.WriteLine(average);
+                Console.WriteLine(expected);
+
+                Console.WriteLine(error);
+                Console.WriteLine();
+            }
+            writeCSV(new double[] { n, sampleSize, maxerror });
             Console.Read();
         }
+
+        private static void writeCSV(double[] toWrite)
+        {
+            StreamWriter writer = new StreamWriter((new FileStream("correctnessAnalysis.csv", FileMode.Append)));
+            for(int i = 0;i < toWrite.Length-1;i++)
+            {
+                writer.Write(toWrite[i].ToString() + ';');
+            }
+            writer.WriteLine(toWrite[toWrite.Length - 1]);
+            writer.Close();
+        }
+
+
         public static Ngon generateRandomNgon(int n)
         {
             double[] vector1 = generateVector(n);

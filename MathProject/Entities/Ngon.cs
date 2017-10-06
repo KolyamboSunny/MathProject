@@ -21,7 +21,7 @@ namespace MathProject.Entities
                 cumulative[0] += entry[0];
                 cumulative[1] += entry[1];
                 Vertex to = new Vertex(cumulative[0], cumulative[1]);
-                Edges.Add(new Edge(to, from));
+                Edges.Add(new Edge(to, from,entry));
             }
             if (Math.Round(cumulative[0],8) != 0 && Math.Round(cumulative[1], 8) != 0) throw (new Exception("Ngon is not closed!"));
         }
@@ -70,6 +70,12 @@ namespace MathProject.Entities
             this.length = Math.Sqrt( Math.Pow(vertex2.coordX- vertex1.coordX, 2) + Math.Pow(vertex2.coordY- vertex1.coordY, 2));
             this.vertex1 = vertex1;
             this.vertex2 = vertex2;
+        }
+        public Edge(Vertex vertex1, Vertex vertex2, double[] vector)
+        {
+            this.vertex1 = vertex1;
+            this.vertex2 = vertex2;
+            this.length = Math.Sqrt(Math.Pow(vector[0],2)+Math.Pow(vector[1],2));
         }
         public override bool Equals(object obj)
         {

@@ -59,6 +59,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Entities\EdgeTests.cs" />
     <Compile Include="Entities\NgonTests.cs" />
     <Compile Include="Entities\TriangleTests.cs" />
     <Compile Include="ProgramTests.cs" />

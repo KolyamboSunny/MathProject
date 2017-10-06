@@ -52,7 +52,7 @@ namespace MathProject_Triangles.Tests
                                     new double[]{1.0/Math.Sqrt(14.0),Math.Sqrt(2.0/7.0),3.0/Math.Sqrt(14.0) },
                                     new double[]{4.0/Math.Sqrt(21.0),1.0/Math.Sqrt(21.0),-2.0/Math.Sqrt(21.0) },
                                 };
-            double precision = 0.001;
+            double precision = 0.000001;
 
             for (int i = 0; i < result.Length; i++)
                 for (int j = 0; j < result[i].Length; j++)
@@ -86,9 +86,81 @@ namespace MathProject_Triangles.Tests
                 if (t.isObtuse) areObtuse++;
             }
             double percentObtuse = (double)areObtuse / sampleSize * 100;
-            Assert.AreEqual(percentObtuse, 83.8093, 1);
+            Assert.AreEqual(percentObtuse, 83.8093, 0.1);
         }
 
+        [TestMethod()]
+        public void AverageDiagonalTest()
+        {
+            int n = 8;
+            int sampleSize = 100000;
+            double[] rawLengths = new double[n];
+            for (long i = sampleSize; i > 0; i--)
+            {                
+                Ngon ngon = Program.generateRandomNgon(n);
+
+                Vertex origin = ngon.Verticies[0];
+                for (int j = 1; j < ngon.Verticies.Count; j++)
+                {
+                    Vertex to = ngon.Verticies[j];
+                    if (to != origin)
+                    {
+                        Edge diagonal = new Edge(origin, to);
+                        rawLengths[j] += Math.Pow(diagonal.length, 2);
+                    }
+                }
+            }
+            double k = 0;
+            //double precision = 0.001;
+            double tolerableError = 5;
+            foreach (double length in rawLengths)
+            {
+                //
+                double average = length / sampleSize;
+                double expected = (8 * k * (n - k) / ((n - 1.00) * n * (n + 2.00)));
+                k++;
+
+                double error = (average - expected) / expected * 100;
+                Assert.IsTrue(expected==0 || error < tolerableError);
+            }
+        }
+        [TestMethod()]
+        public void ShortDiagonalTest()
+        {
+            List<Ngon> ngons = new List<Ngon>();
+            double[][] edgeVectors = new double[][]
+            {
+                new double[]{0,4 },
+                new double[]{4,0 },
+                new double[]{0,-4 },
+                new double[]{-4,0 },
+            };
+             ngons.Add(new Ngon(edgeVectors ));
+            
+            foreach(Ngon ngon in ngons)
+            {
+                double precision = 0.000005;
+                Vertex origin = ngon.Verticies[0];
+
+                Vertex to = ngon.Verticies[1];
+                Edge diagonal = new Edge(origin, to);
+                double squaredLength= Math.Pow(diagonal.length, 2);
+                double expected = 16;
+                Assert.AreEqual(squaredLength, expected,precision);
+
+                to = ngon.Verticies[2];
+                diagonal = new Edge(origin, to);
+                squaredLength = Math.Pow(diagonal.length, 2);
+                expected = 32;
+                Assert.AreEqual(squaredLength, expected, precision);
+
+                to = ngon.Verticies[3];
+                diagonal = new Edge(origin, to);
+                squaredLength = Math.Pow(diagonal.length, 2);
+                expected = 16;
+                Assert.AreEqual(squaredLength, expected, precision);
+            }
+        }
     }
 
 
