@@ -22,9 +22,33 @@ namespace MathProject.Entities.Tests
                 new double[]{-4,0 },
             };
             Ngon ngon = new Ngon(edgeVectors);
-            CollectionAssert.AreEquivalent(ngon.Verticies,new Vertex[] { new Vertex(0, 4), new Vertex(4, 4), new Vertex(4, 0),new Vertex(0,0) });
+            CollectionAssert.AreEquivalent(ngon.Verticies, new Vertex[] { new Vertex(0, 4), new Vertex(4, 4), new Vertex(4, 0), new Vertex(0, 0) });
             foreach (Edge edge in ngon.Edges)
                 Assert.AreEqual(edge.length, 4, 0.001);
+        }
+
+        [TestMethod()]
+        public void angleBetweenEdgesDegreesTest()
+        {
+            Edge a = new Edge(new Vertex(0, 0), new double[] { 0, 1 });
+            Edge b = new Edge(new Vertex(0, 1), new double[] { 1, 0 });
+            Ngon ngon = new Ngon(new double[][] { new double[] { 0, 1 }, new double[] { 0, -1 }, });
+            Assert.AreEqual(ngon.angleBetweenEdgesDegrees(a, b), 90, 0.0001);
+
+            a = new Edge(new Vertex(0, 0), new double[] { 1, 1 });
+            b = new Edge(new Vertex(1, 1), new double[] { 2, 2 });
+            Assert.AreEqual(ngon.angleBetweenEdgesDegrees(a, b), 180, 0.0001);
+
+            a = new Edge(new Vertex(0, 0), new double[] { 0, 3 });
+            b = new Edge(new Vertex(0, 3), new double[] { 3, -3 });
+            Assert.AreEqual(ngon.angleBetweenEdgesDegrees(a, b), 45, 0.0001);
+        }
+
+        [TestMethod()]
+        public void getTypeTest()
+        {
+            throw (new NotImplementedException("Not implemented yet :("));
+            Assert.Fail();
         }
     }
 }
