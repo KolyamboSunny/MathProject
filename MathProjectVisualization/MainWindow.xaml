@@ -12,8 +12,11 @@
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Button Name="but_randomNgon" Content="Random Ngon" HorizontalAlignment="Right" Margin="10,10,10,0" VerticalAlignment="Top" Click="but_randomNgon_Click" Width="112" Grid.Column="1"/>
-        <Grid Name="frame" Margin="50,50,50,50" />
-        <Label Name="lab_angles" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Width="107"/>
-        <Label x:Name="lab_type" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Width="107"/>
+        <Grid Name="frame" Margin="50,50,50,50" Grid.Column="0" />
+        <Grid Grid.Column="1">
+            <Label Name="lab_angles" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Width="107"/>
+            <Label x:Name="lab_type" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Width="107"/>
+        </Grid>
+        <Button x:Name="but_randomNgon_Copy" Content="Ngon Distribution" HorizontalAlignment="Right" Margin="10,150,10,0" VerticalAlignment="Top" Click="but_randomNgon_Click" Width="112" Grid.Column="1"/>
     </Grid>
 </Window>

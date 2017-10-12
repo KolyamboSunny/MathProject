@@ -70,14 +70,67 @@ namespace MathProject.Entities
             return result;
         }
 
+        public bool edgesIntersect(Edge e1,Edge e2)
+        {
+            Vertex v1 = e1.vertex1;
+            Vertex v2 = e1.vertex2;
+            //build equation of form Ax+By+C=0
+            double[] params1 = new double[] {
+                (v1.coordY - v2.coordY),
+                (v2.coordX-v1.coordX),
+                (v1.coordX*v2.coordY-v2.coordX*v1.coordY)
+            };
+
+            v1 = e2.vertex1;
+            v2 = e2.vertex2;
+            double[] params2 = new double[] {
+                (v1.coordY - v2.coordY),
+                (v2.coordX-v1.coordX),
+                (v1.coordX*v2.coordY-v2.coordX*v1.coordY)
+            };
+            double A1 = params1[0], B1 = params1[1], C1 = params1[2];
+            double A2 = params2[0], B2 = params2[1], C2 = params2[2];
+
+            double factor = (A1 * B2 - A2 * B1);
+            if (factor == 0) return false;
+            double? resX = -(C1 * B2 - C2 * B1) / factor;
+            double? resY = -(A1 * C2 - A2 * C1) / factor;
+
+            bool inE1 = (resX <= Math.Max(e1.vertex1.coordX, e1.vertex2.coordX) &&
+                resX >= Math.Min(e1.vertex1.coordX, e1.vertex2.coordX) &&
+                resY <= Math.Max(e1.vertex1.coordY, e1.vertex2.coordY) &&
+                resY >= Math.Min(e1.vertex1.coordY, e1.vertex2.coordY));
+            bool inE2 = (resX <= Math.Max(e2.vertex1.coordX, e2.vertex2.coordX) &&
+                resX >= Math.Min(e2.vertex1.coordX, e2.vertex2.coordX) &&
+                resY <= Math.Max(e2.vertex1.coordY, e2.vertex2.coordY) &&
+                resY >= Math.Min(e2.vertex1.coordY, e2.vertex2.coordY));
+            if (inE1&&inE2)
+                return true;
+            else return false;
+        }
+
         public NgonType getType()
         {
             double convexSum = 180 * (Verticies.Count - 2);
             if (Math.Round(AngleSum, 10) == Math.Round(convexSum, 10)) return NgonType.Convex;
-            else
-                return NgonType.Unknown;
-        }
 
+            for(int i= 0;i < Edges.Count;i++)
+            {
+                for(int j=i+1;j<Edges.Count;j++)
+                {
+                    Edge e1 = Edges[i];
+                    Edge e2 = Edges[j];
+                    if (e1.vertex1.Equals(e2.vertex2) || e1.vertex1.Equals(e2.vertex2) || 
+                        e1.vertex2.Equals(e2.vertex1) || e1.vertex2.Equals(e2.vertex2)) continue;
+                    if (edgesIntersect(e1, e2))
+                        return NgonType.Self_Intersecting;
+                }
+            }
+
+            return NgonType.Reflex;
+                 
+        }
+        
         public NgonType Type
         {
             get
@@ -87,7 +140,7 @@ namespace MathProject.Entities
         }
         
     }
-    public enum NgonType { Convex, Reflex, Self_Inserting,Unknown};
+    public enum NgonType { Convex, Reflex, Self_Intersecting,Unknown};
     public class Vertex
     {
         public double coordX, coordY;

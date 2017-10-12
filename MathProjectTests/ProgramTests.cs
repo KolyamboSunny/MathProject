@@ -170,20 +170,28 @@ namespace MathProject_Triangles.Tests
 
             //4gons: 1/3 convex, 1/3 reflex, 1/3 self-intersecting
             long convexNum = 0;
+            long reflexNum = 0;
+            long selfintersectingNum = 0;
             for (long i = sampleSize; i > 0; i--)
             {
                 Ngon randomNgon = Program.generateRandomNgon(4);
                 if (randomNgon.Type == NgonType.Convex) convexNum++;
+                if (randomNgon.Type == NgonType.Reflex) reflexNum++;
+                if (randomNgon.Type == NgonType.Self_Intersecting) selfintersectingNum++;
             }
             double convexPercentage = (double)convexNum / sampleSize * 100;
+            double reflexPercentage = (double)convexNum / sampleSize * 100;
+            double selfintersectingPercentage = (double)convexNum / sampleSize * 100;
             Assert.AreEqual(convexPercentage,33.3333333,precision);
+            Assert.AreEqual(reflexPercentage, 33.3333333, precision);
+            Assert.AreEqual(selfintersectingPercentage, 33.3333333, precision);
         }
 
         [TestMethod()]
         public void fivegonTypeDistribution()
         {
             long sampleSize = 1000000;
-            double precision = 0.1;
+            double precision = 1;
 
             //4gons: 1/3 convex, 1/3 reflex, 1/3 self-intersecting
             long convexNum = 0;

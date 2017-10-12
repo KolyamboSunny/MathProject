@@ -47,8 +47,55 @@ namespace MathProject.Entities.Tests
         [TestMethod()]
         public void getTypeTest()
         {
-            throw (new NotImplementedException("Not implemented yet :("));
-            Assert.Fail();
+            double[][] edgevectors =
+            {
+                new double[]{1,0},
+                new double[]{0,1},
+                new double[]{-1,0},
+                new double[]{0,-1}
+            };
+            Ngon ngon = new Ngon(edgevectors);
+            Assert.AreEqual(ngon.Type, NgonType.Convex);
+
+            edgevectors = new double[][]
+            {
+                new double[]{0,2},
+                new double[]{4,-2},
+                new double[]{0,2},
+                new double[]{-4,-2}
+            };
+            ngon = new Ngon(edgevectors);
+            Assert.AreEqual(ngon.Type, NgonType.Self_Intersecting);
+
+            edgevectors = new double[][]{
+                new double[]{1,0},
+                new double[]{(double)-3/4,(double)1 / 4},
+                new double[]{(double)-1/4,(double)3 / 4},
+                new double[]{0,-1}
+            };
+            ngon = new Ngon(edgevectors);
+            Assert.AreEqual(ngon.Type, NgonType.Reflex);
+        }
+
+        [TestMethod()]
+        public void edgesIntersectTest()
+        {
+            Ngon n = new Ngon(new double[][] { new double[] { 0, 1 }, new double[] { 0, -1 } });
+
+            //intersect
+            Edge e1 = new Edge(new Vertex(0, 0), new Vertex(1, 1));
+            Edge e2 = new Edge(new Vertex(1, 0), new Vertex(0, 1));
+            Assert.IsTrue(n.edgesIntersect(e1, e2));
+
+            //parallel
+            e1 = new Edge(new Vertex(0, 1), new Vertex(3, 1));
+            e2 = new Edge(new Vertex(0, 0), new Vertex(10, 0));
+            Assert.IsFalse(n.edgesIntersect(e1, e2));
+
+            //nonparallel, not intersect
+            e1 = new Edge(new Vertex(10, 0), new Vertex(8, 1));
+            e2 = new Edge(new Vertex(0, 0), new Vertex(3, 20));
+            Assert.IsFalse(n.edgesIntersect(e1, e2));
         }
     }
 }
