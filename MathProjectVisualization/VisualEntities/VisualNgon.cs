@@ -13,29 +13,36 @@ namespace MathProjectVisualization.VisualEntities
 {
     public class VisualNgon
     {
-        Ngon ngonModel;
+        public Ngon ngonModel;
         PointCollection rawVerticies = new PointCollection();
         PointCollection verticies = new PointCollection();
 
         public VisualNgon(Ngon ngon)
         {
             this.ngonModel = ngon;
-        }
-
-        public void draw(Panel container)
-        {
-            List<Line> ngonEdges = new List<Line>();
             foreach (Vertex vertex in ngonModel.Verticies)
             {
                 Point point = new Point(vertex.coordX, vertex.coordY);
                 rawVerticies.Add(point);
             }
 
+        }
+
+        public void draw(Panel container)
+        {
+            draw(container, container.ActualWidth, container.ActualHeight);
+        }
+        public void draw(Panel container,double width,double height)
+        {
+            List<Line> ngonEdges = new List<Line>();
+
+
             foreach (Point vertex in rawVerticies)
             {
-                Point screenVertex = convertToContainerCoords(container, vertex);
+                Point screenVertex = convertToContainerCoords(width, height, vertex);
                 verticies.Add(screenVertex);
             }
+
             char vertexLetter = 'A';
             for (int i = 0; i < verticies.Count; i++)
             {
@@ -67,8 +74,20 @@ namespace MathProjectVisualization.VisualEntities
                 container.Children.Add(vertexInfo);
             }
         }
+        public Polygon getPolygon()
+        {
+            Polygon polygon = new Polygon() {
+                Points = rawVerticies,
+                VerticalAlignment = VerticalAlignment.Stretch,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                Margin = new Thickness(10, 10, 10, 10),
+                StrokeThickness = 5,
+                Stroke = new SolidColorBrush(Colors.Red)
+            };
+            return polygon;
+        }
 
-        private Point convertToContainerCoords(FrameworkElement container, Point p)
+        private Point convertToContainerCoords(double width,double height, Point p)
         {
             Point result = new Point();
             double minX = Double.MaxValue, minY = Double.MaxValue;
@@ -82,11 +101,15 @@ namespace MathProjectVisualization.VisualEntities
                 maxY = Math.Max(rp.Y, maxY);
             }
 
-            double scaleCoefficientX = (container.ActualWidth - 50) / (maxX - minX);
-            double scaleCoefficientY = (container.ActualHeight - 50) / (maxY - minY);
+            double scaleCoefficientX = (width - 50) / (maxX - minX);
+            double scaleCoefficientY = (height - 50) / (maxY - minY);
             result.X = (p.X - minX) * scaleCoefficientX;
             result.Y = (p.Y - minY) * scaleCoefficientY;
             return result;
+        }
+         private Point convertToContainerCoords(FrameworkElement container, Point p)
+        {
+            return convertToContainerCoords(container.ActualWidth, container.ActualHeight, p);
         }
     }
 

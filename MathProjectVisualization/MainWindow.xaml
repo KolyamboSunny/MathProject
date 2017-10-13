@@ -17,6 +17,6 @@
             <Label Name="lab_angles" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Width="107"/>
             <Label x:Name="lab_type" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Width="107"/>
         </Grid>
-        <Button x:Name="but_randomNgon_Copy" Content="Ngon Distribution" HorizontalAlignment="Right" Margin="10,150,10,0" VerticalAlignment="Top" Click="but_randomNgon_Click" Width="112" Grid.Column="1"/>
+        <Button x:Name="but_ngonDistribution" Content="Ngon Distribution" HorizontalAlignment="Right" Margin="10,150,10,0" VerticalAlignment="Top" Click="but_ngonDistribution_Click" Width="112" Grid.Column="1"/>
     </Grid>
 </Window>

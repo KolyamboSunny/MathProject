@@ -45,6 +45,12 @@ namespace MathProjectVisualization
             displayAngleSum(ngon);
             displayType(ngon);
         }
+
+        private void but_ngonDistribution_Click(object sender, RoutedEventArgs e)
+        {
+            Window n = new NgonDistribution();
+            n.ShowDialog();
+        }
     }
 
     }
