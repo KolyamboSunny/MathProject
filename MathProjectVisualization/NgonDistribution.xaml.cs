@@ -1,5 +1,5 @@
-﻿using MathProject.Entities;
-using MathProject_Triangles;
+﻿using MathProject;
+using MathProject.Entities;
 using MathProjectVisualization.VisualEntities;
 using System;
 using System.Collections.Generic;

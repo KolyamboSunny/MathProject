@@ -1,5 +1,4 @@
 ﻿using MathProject.Entities;
-using MathProject_Triangles;
 using MathProject;
 using System;
 using System.Collections.Generic;
