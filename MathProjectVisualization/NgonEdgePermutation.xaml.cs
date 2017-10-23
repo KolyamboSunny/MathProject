@@ -59,6 +59,10 @@ namespace MathProjectVisualization
                     if (ngon.ngonModel.Type == NgonType.Self_Intersecting) panel_selfintersecting.Items.Add(box);
                     
                 }
+
+                lab_convex.Content = "Convex: " + panel_convex.Items.Count;
+                lab_reflex.Content = "Reflex: " + panel_reflex.Items.Count;
+                lab_selfintersecting.Content = "Self-Intersecting: " + panel_selfintersecting.Items.Count;
             }
             catch(Exception)
             {                 
