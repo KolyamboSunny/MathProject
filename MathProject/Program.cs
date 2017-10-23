@@ -15,7 +15,8 @@ namespace MathProject_Triangles
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Calculate average distances between ngon verticies");
+            Console.WriteLine("How many times to repeat the experiment?");
+            long outerSampleSize = Int64.Parse(Console.ReadLine());
             Console.WriteLine("How many dimensions are we working with?");
             int n = Int32.Parse(Console.ReadLine());
              
@@ -23,44 +24,39 @@ namespace MathProject_Triangles
             long sampleSize = Int64.Parse(Console.ReadLine());
 
             double[] rawLengths = new double[n];
-            for (long i = sampleSize; i > 0; i--)
+            for (long j = outerSampleSize; j > 0; j--)
             {
-                if (i % 1000 == 0) Console.WriteLine(i + " | " + sampleSize);
-                Ngon ngon = generateRandomNgon(n);
-
-                Vertex origin = ngon.Verticies[0];
-                for (int j = 1; j < ngon.Verticies.Count; j++)
+                long convex = 0;
+                long reflex = 0;
+                long self_intersecting = 0;
+                for (long i = sampleSize; i > 0; i--)
                 {
-                    Vertex to = ngon.Verticies[j];
-                    if (to != origin)
+                    if (i % 1000 == 0) Console.WriteLine(i + " | " + sampleSize);
+                    Ngon ngon = generateRandomNgon(n);
+
+                    switch (ngon.Type)
                     {
-                        Edge diagonal = new Edge(origin, to);
-                        rawLengths[j] += Math.Pow(diagonal.length, 2);
+                        case (NgonType.Convex):
+                            convex++;
+                            break;
+                        case (NgonType.Reflex):
+                            reflex++;
+                            break;
+                        case (NgonType.Self_Intersecting):
+                            self_intersecting++;
+                            break;
                     }
                 }
+                Console.WriteLine(j + ", "+n + ", " + sampleSize + ": " + convex + " | " + reflex + " | " + self_intersecting);
+                writeCSV(new double[] { n, sampleSize, convex, reflex, self_intersecting });
             }
-            double k = 0;
-            double maxerror = 0;
-            foreach (double length in rawLengths)
-            {
-                double average = length / sampleSize;
-                double expected = (8 * k * (n - k) / ((n - 1.00) * n * (n + 2.00)));
-                k++;
-                double error = (average - expected) / expected * 100;
-                if (error > maxerror) maxerror = error;
-                Console.WriteLine(average);
-                Console.WriteLine(expected);
-
-                Console.WriteLine(error);
-                Console.WriteLine();
-            }
-            writeCSV(new double[] { n, sampleSize, maxerror });
+            
             Console.Read();
         }
 
         private static void writeCSV(double[] toWrite)
         {
-            StreamWriter writer = new StreamWriter((new FileStream("correctnessAnalysis.csv", FileMode.Append)));
+            StreamWriter writer = new StreamWriter((new FileStream("experiment1.csv", FileMode.Append)));
             for(int i = 0;i < toWrite.Length-1;i++)
             {
                 writer.Write(toWrite[i].ToString() + ';');

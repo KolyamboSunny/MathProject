@@ -10,6 +10,7 @@ namespace MathProject.Entities
 {
     public class Ngon
     {
+        public double[][] EdgeVectors;
         public List<Vertex> Verticies = new List<Vertex>();
         public Dictionary<Vertex, double> relatedAngles = new Dictionary<Vertex, double>();
         public List<Edge> Edges = new List<Edge>();
@@ -25,7 +26,7 @@ namespace MathProject.Entities
 
         public Ngon(double[][] edgeVectors)
         {
-
+            this.EdgeVectors = edgeVectors;
             double[] cumulative = new double[] { 0, 0 };
             foreach (double[] entry in edgeVectors)
             {
