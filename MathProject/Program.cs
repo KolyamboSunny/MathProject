@@ -9,7 +9,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathProject.Entities;
 using System.IO;
 
-namespace MathProject_Triangles
+namespace MathProject
 {
     public class Program
     {

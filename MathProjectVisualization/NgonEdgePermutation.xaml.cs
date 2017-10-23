@@ -20,28 +20,34 @@ namespace MathProjectVisualization
     /// <summary>
     /// Логика взаимодействия для NgonDistribution.xaml
     /// </summary>
-    public partial class NgonDistribution : Window
+    public partial class NgonEdgePermutation : Window
     {
         long sampleSize;
         int dimensions;
+        Ngon modelNgon;
+        ICollection<Ngon> permutations;
         List<VisualNgon> ngons;
         List<Polygon> polygons = new List<Polygon>();
-        public NgonDistribution()
+        public NgonEdgePermutation(Ngon ngon)
         {
+            this.modelNgon = ngon;
+            this.permutations = (new NgonEdgePermutations(ngon)).edgePermutations();        
             InitializeComponent();
+            updateCollection();
         }
 
-        private void but_generate_Click(object sender, RoutedEventArgs e)
+        private void updateCollection()
         {
             try
             {
-                sampleSize = Int64.Parse(text_sampleSize.Text);
-                dimensions = Int32.Parse(text_dimensions.Text);
+
+                sampleSize = permutations.Count();
+                dimensions = modelNgon.Edges.Count();
 
                 ngons = new List<VisualNgon>((int)sampleSize);
-                for(long i= sampleSize; i>0;i--)
+                foreach(Ngon modelNgon in permutations)
                 {
-                    VisualNgon ngon = new VisualNgon(Program.generateRandomNgon(dimensions));
+                    VisualNgon ngon = new VisualNgon(modelNgon);
 
                     ngons.Add(ngon);
                     double width = 300, height = 200;
@@ -53,11 +59,13 @@ namespace MathProjectVisualization
                     if (ngon.ngonModel.Type == NgonType.Self_Intersecting) panel_selfintersecting.Items.Add(box);
                     
                 }
+
+                lab_convex.Content = "Convex: " + panel_convex.Items.Count;
+                lab_reflex.Content = "Reflex: " + panel_reflex.Items.Count;
+                lab_selfintersecting.Content = "Self-Intersecting: " + panel_selfintersecting.Items.Count;
             }
             catch(Exception)
-            {
-                text_sampleSize.Text = "";
-                text_dimensions.Text = "";
+            {                 
             }
         }
     }

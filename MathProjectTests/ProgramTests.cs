@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MathProject_Triangles;
+using MathProject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using MathNet.Numerics.LinearAlgebra;
 
 using MathProject.Entities;
 
-namespace MathProject_Triangles.Tests
+namespace MathProject.Tests
 {
     [TestClass()]
     public class ProgramTests

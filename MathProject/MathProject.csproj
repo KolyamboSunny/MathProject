@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Ngon.cs" />
+    <Compile Include="Entities\NgonEdgePermutations.cs" />
     <Compile Include="Entities\Triangle.cs" />
     <Compile Include="Entities\Matricies.cs" />
     <Compile Include="Program.cs" />

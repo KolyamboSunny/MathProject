@@ -14,6 +14,13 @@ namespace MathProject.Entities
         public List<Vertex> Verticies = new List<Vertex>();
         public Dictionary<Vertex, double> relatedAngles = new Dictionary<Vertex, double>();
         public List<Edge> Edges = new List<Edge>();
+        private double[][] EdgeVectors;
+        public double[][] getEdgeVectors()
+        {
+            double[][] result = new double[this.EdgeVectors.Length][];
+            Array.Copy(this.EdgeVectors, result, this.EdgeVectors.Length);
+            return result;
+        }
 
         public double AngleSum
         {
@@ -139,7 +146,7 @@ namespace MathProject.Entities
                 return getType();
             }
         }
-        
+
     }
     public enum NgonType { Convex, Reflex, Self_Intersecting,Unknown};
     public class Vertex
