@@ -23,6 +23,7 @@ namespace MathProjectVisualization
     /// </summary>
     public partial class MainWindow : Window
     {
+        Ngon currentNgon;
         public MainWindow()
         {
             InitializeComponent();
@@ -38,16 +39,26 @@ namespace MathProjectVisualization
         private void but_randomNgon_Click(object sender, RoutedEventArgs e)
         {
             frame.Children.Clear();
-            Ngon ngon = Program.generateRandomNgon(4);
-            VisualNgon n = new VisualNgon(ngon);
+
+            int dimensions = Int32.Parse(text_dimensions.Text);
+
+            currentNgon = Program.generateRandomNgon(dimensions);
+            but_ngonPermutations.IsEnabled = true;
+            VisualNgon n = new VisualNgon(currentNgon);
             n.draw(frame);
-            displayAngleSum(ngon);
-            displayType(ngon);
+            displayAngleSum(currentNgon);
+            displayType(currentNgon);
         }
 
         private void but_ngonDistribution_Click(object sender, RoutedEventArgs e)
         {
             Window n = new NgonDistribution();
+            n.ShowDialog();
+        }
+
+        private void but_ngonPermutations_Click(object sender, RoutedEventArgs e)
+        {
+            Window n = new NgonEdgePermutation(currentNgon);
             n.ShowDialog();
         }
     }

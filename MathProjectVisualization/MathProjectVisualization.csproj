@@ -54,6 +54,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="NgonEdgePermutation.xaml.cs">
+      <DependentUpon>NgonEdgePermutation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NgonDistribution.xaml.cs">
       <DependentUpon>NgonDistribution.xaml</DependentUpon>
     </Compile>
@@ -70,6 +73,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="NgonEdgePermutation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="NgonDistribution.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
