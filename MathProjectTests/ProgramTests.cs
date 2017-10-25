@@ -10,6 +10,7 @@ using System.IO;
 using MathNet.Numerics.LinearAlgebra;
 
 using MathProject.Entities;
+using MathProject.Tools;
 
 namespace MathProject.Tests
 {
@@ -203,6 +204,8 @@ namespace MathProject.Tests
             double convexPercentage = (double)convexNum / sampleSize * 100;
             Assert.AreEqual(convexPercentage, (double)1/12*100, precision);
         }
+
+        
     }
 
 

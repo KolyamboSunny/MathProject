@@ -10,7 +10,6 @@ namespace MathProject.Entities
 {
     public class Ngon
     {
-        public double[][] EdgeVectors;
         public List<Vertex> Verticies = new List<Vertex>();
         public Dictionary<Vertex, double> relatedAngles = new Dictionary<Vertex, double>();
         public List<Edge> Edges = new List<Edge>();

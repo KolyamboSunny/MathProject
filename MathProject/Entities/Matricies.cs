@@ -46,18 +46,18 @@ namespace MathProject.Tools
     }
     public class PluckerMatrix:Matrix
     {
-        public PluckerMatrix(Ngon ngon):this(ngon.EdgeVectors){}
+        public PluckerMatrix(Ngon ngon):this(ngon.getEdgeVectors()){}
         public PluckerMatrix(double[][] vectors)
         {
             this.columnVectors = new double[vectors.Count()][];
             for (int i = 0; i < vectors.Count(); i++) columnVectors[i] = new double[vectors.Count()];
 
-            for (int i = 0; i < vectors.Count(); i++)
+            for (int j = 0; j < vectors.Count(); j++)
             {
-                double ai = vectors[i][0], bi = vectors[i][1];
-                for (int j = 0; j < vectors.Count(); j++)
+                double aj = vectors[j][0], bj = vectors[j][1];
+                for (int i = 0; i < vectors.Count(); i++)
                 {
-                    double aj = vectors[j][0], bj = vectors[j][1];
+                    double ai = vectors[i][0], bi = vectors[i][1];
                     columnVectors[j][i] = ai * bj - aj * bi;
                 }
             }
@@ -67,18 +67,18 @@ namespace MathProject.Tools
 
     public class ProjectionMatrix:Matrix
     {
-        public ProjectionMatrix(Ngon ngon) : this(ngon.EdgeVectors) { }
+        public ProjectionMatrix(Ngon ngon) : this(ngon.getEdgeVectors()) { }
         public ProjectionMatrix(double[][] vectors)
         {
             columnVectors = new double[vectors.Count()][];
             for (int i = 0; i < vectors.Count(); i++) columnVectors[i] = new double[vectors.Count()];
 
-            for (int i = 0; i < vectors.Count(); i++)
+            for (int j = 0; j < vectors.Count(); j++)
             {
-                double ai = vectors[i][0], bi = vectors[i][1];
-                for (int j = 0; j < vectors.Count(); j++)
+                double aj = vectors[j][0], bj = vectors[j][1];
+                for (int i = 0; i < vectors.Count(); i++)
                 {
-                    double aj = vectors[j][0], bj = vectors[j][1];
+                    double ai = vectors[i][0], bi = vectors[i][1];
                     columnVectors[j][i] = ai * aj + bi*bj;
                 }
             }
