@@ -14,53 +14,38 @@ namespace MathProject
     public class Program
     {
         static void Main(string[] args)
-        {
-            Console.WriteLine("Calculate average distances between ngon verticies");
+        {           
             Console.WriteLine("How many dimensions are we working with?");
             int n = Int32.Parse(Console.ReadLine());
              
             Console.WriteLine("How big is the sample size?");
             long sampleSize = Int64.Parse(Console.ReadLine());
-
-            double[] rawLengths = new double[n];
+            List<double[]> results = new List<double[]>();
             for (long i = sampleSize; i > 0; i--)
             {
-                if (i % 1000 == 0) Console.WriteLine(i + " | " + sampleSize);
+                if (i % (sampleSize/10) == 0) Console.WriteLine(i + "%");
                 Ngon ngon = generateRandomNgon(n);
 
-                Vertex origin = ngon.Verticies[0];
-                for (int j = 1; j < ngon.Verticies.Count; j++)
-                {
-                    Vertex to = ngon.Verticies[j];
-                    if (to != origin)
-                    {
-                        Edge diagonal = new Edge(origin, to);
-                        rawLengths[j] += Math.Pow(diagonal.length, 2);
-                    }
-                }
-            }
-            double k = 0;
-            double maxerror = 0;
-            foreach (double length in rawLengths)
-            {
-                double average = length / sampleSize;
-                double expected = (8 * k * (n - k) / ((n - 1.00) * n * (n + 2.00)));
-                k++;
-                double error = (average - expected) / expected * 100;
-                if (error > maxerror) maxerror = error;
-                Console.WriteLine(average);
-                Console.WriteLine(expected);
+                var permutations = (new NgonEdgePermutations(ngon)).edgePermutations();
+                int convex = permutations.Count(m => m.Type == NgonType.Convex);
+                int reflex = permutations.Count(m => m.Type == NgonType.Reflex);
+                int self_intersecting = permutations.Count(m => m.Type == NgonType.Self_Intersecting);
 
-                Console.WriteLine(error);
-                Console.WriteLine();
+                double[] entry=results.Find(e => e[0] == convex && e[1] == reflex && e[2] == self_intersecting);
+                if (entry != null) entry[3]++;
+                else results.Add(new double[] { convex, reflex, self_intersecting, 1 });
             }
-            writeCSV(new double[] { n, sampleSize, maxerror });
+            foreach (double[] entry in results)
+            {
+                writeCSV(entry);
+            }
+            Console.WriteLine("DONE");
             Console.Read();
         }
 
         private static void writeCSV(double[] toWrite)
         {
-            StreamWriter writer = new StreamWriter((new FileStream("correctnessAnalysis.csv", FileMode.Append)));
+            StreamWriter writer = new StreamWriter((new FileStream("experiment2.csv", FileMode.Append)));
             for(int i = 0;i < toWrite.Length-1;i++)
             {
                 writer.Write(toWrite[i].ToString() + ';');
