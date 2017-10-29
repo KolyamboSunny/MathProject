@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MathProject_Triangles;
+using MathProject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using MathNet.Numerics.LinearAlgebra;
 
 using MathProject.Entities;
 
-namespace MathProject_Triangles.Tests
+namespace MathProject.Tests
 {
     [TestClass()]
     public class ProgramTests
@@ -96,7 +96,7 @@ namespace MathProject_Triangles.Tests
             int sampleSize = 100000;
             double[] rawLengths = new double[n];
             for (long i = sampleSize; i > 0; i--)
-            {                
+            {
                 Ngon ngon = Program.generateRandomNgon(n);
 
                 Vertex origin = ngon.Verticies[0];
@@ -121,7 +121,7 @@ namespace MathProject_Triangles.Tests
                 k++;
 
                 double error = (average - expected) / expected * 100;
-                Assert.IsTrue(expected==0 || error < tolerableError);
+                Assert.IsTrue(expected == 0 || error < tolerableError);
             }
         }
         [TestMethod()]
@@ -135,18 +135,18 @@ namespace MathProject_Triangles.Tests
                 new double[]{0,-4 },
                 new double[]{-4,0 },
             };
-             ngons.Add(new Ngon(edgeVectors ));
-            
-            foreach(Ngon ngon in ngons)
+            ngons.Add(new Ngon(edgeVectors));
+
+            foreach (Ngon ngon in ngons)
             {
                 double precision = 0.000005;
                 Vertex origin = ngon.Verticies[0];
 
                 Vertex to = ngon.Verticies[1];
                 Edge diagonal = new Edge(origin, to);
-                double squaredLength= Math.Pow(diagonal.length, 2);
+                double squaredLength = Math.Pow(diagonal.length, 2);
                 double expected = 16;
-                Assert.AreEqual(squaredLength, expected,precision);
+                Assert.AreEqual(squaredLength, expected, precision);
 
                 to = ngon.Verticies[2];
                 diagonal = new Edge(origin, to);
@@ -160,6 +160,48 @@ namespace MathProject_Triangles.Tests
                 expected = 16;
                 Assert.AreEqual(squaredLength, expected, precision);
             }
+        }
+
+        [TestMethod()]
+        public void fourgonTypeDistribution()
+        {
+            long sampleSize = 1000000;
+            double precision = 0.1;
+
+            //4gons: 1/3 convex, 1/3 reflex, 1/3 self-intersecting
+            long convexNum = 0;
+            long reflexNum = 0;
+            long selfintersectingNum = 0;
+            for (long i = sampleSize; i > 0; i--)
+            {
+                Ngon randomNgon = Program.generateRandomNgon(4);
+                if (randomNgon.Type == NgonType.Convex) convexNum++;
+                if (randomNgon.Type == NgonType.Reflex) reflexNum++;
+                if (randomNgon.Type == NgonType.Self_Intersecting) selfintersectingNum++;
+            }
+            double convexPercentage = (double)convexNum / sampleSize * 100;
+            double reflexPercentage = (double)convexNum / sampleSize * 100;
+            double selfintersectingPercentage = (double)convexNum / sampleSize * 100;
+            Assert.AreEqual(convexPercentage,33.3333333,precision);
+            Assert.AreEqual(reflexPercentage, 33.3333333, precision);
+            Assert.AreEqual(selfintersectingPercentage, 33.3333333, precision);
+        }
+
+        [TestMethod()]
+        public void fivegonTypeDistribution()
+        {
+            long sampleSize = 1000000;
+            double precision = 1;
+
+            //4gons: 1/3 convex, 1/3 reflex, 1/3 self-intersecting
+            long convexNum = 0;
+            for (long i = sampleSize; i > 0; i--)
+            {
+                Ngon randomNgon = Program.generateRandomNgon(5);
+                if (randomNgon.Type == NgonType.Convex) convexNum++;
+            }
+            double convexPercentage = (double)convexNum / sampleSize * 100;
+            Assert.AreEqual(convexPercentage, (double)1/12*100, precision);
         }
     }
 
