@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,41 +22,32 @@ namespace MathProject
              
             Console.WriteLine("How big is the sample size?");
             long sampleSize = Int64.Parse(Console.ReadLine());
-
-            double[] rawLengths = new double[n];
-            for (long j = outerSampleSize; j > 0; j--)
+            List<double[]> results = new List<double[]>();
+            for (long i = sampleSize; i > 0; i--)
             {
-                long convex = 0;
-                long reflex = 0;
-                long self_intersecting = 0;
-                for (long i = sampleSize; i > 0; i--)
-                {
-                    if (i % 1000 == 0) Console.WriteLine(i + " | " + sampleSize);
-                    Ngon ngon = generateRandomNgon(n);
+                if (i % (sampleSize/10) == 0) Console.WriteLine(i/ (sampleSize/100) + "%");
+                Ngon ngon = generateRandomNgon(n);
 
-                    switch (ngon.Type)
-                    {
-                        case (NgonType.Convex):
-                            convex++;
-                            break;
-                        case (NgonType.Reflex):
-                            reflex++;
-                            break;
-                        case (NgonType.Self_Intersecting):
-                            self_intersecting++;
-                            break;
-                    }
-                }
-                Console.WriteLine(j + ", "+n + ", " + sampleSize + ": " + convex + " | " + reflex + " | " + self_intersecting);
-                writeCSV(new double[] { n, sampleSize, convex, reflex, self_intersecting });
+                var permutations = (new NgonEdgePermutations(ngon)).edgePermutations();
+                int convex = permutations.Count(m => m.Type == NgonType.Convex);
+                int reflex = permutations.Count(m => m.Type == NgonType.Reflex);
+                int self_intersecting = permutations.Count(m => m.Type == NgonType.Self_Intersecting);
+
+                double[] entry=results.Find(e => e[0] == convex && e[1] == reflex && e[2] == self_intersecting);
+                if (entry != null) entry[3]++;
+                else results.Add(new double[] { convex, reflex, self_intersecting, 1 });
             }
-            
+            foreach (double[] entry in results)
+            {
+                writeCSV(entry);
+            }
+            Console.WriteLine("DONE");
             Console.Read();
         }
 
         private static void writeCSV(double[] toWrite)
         {
-            StreamWriter writer = new StreamWriter((new FileStream("experiment1.csv", FileMode.Append)));
+            StreamWriter writer = new StreamWriter((new FileStream("experiment2.csv", FileMode.Append)));
             for(int i = 0;i < toWrite.Length-1;i++)
             {
                 writer.Write(toWrite[i].ToString() + ';');
