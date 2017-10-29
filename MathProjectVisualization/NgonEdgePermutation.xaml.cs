@@ -31,7 +31,7 @@ namespace MathProjectVisualization
         public NgonEdgePermutation(Ngon ngon)
         {
             this.modelNgon = ngon;
-            this.permutations = (new NgonEdgePermutations(ngon)).edgePermutations();        
+            this.permutations = (new NgonEdgePermutations(ngon)).edgePermutations();
             InitializeComponent();
             updateCollection();
         }

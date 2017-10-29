@@ -23,7 +23,7 @@ namespace MathProject
             List<double[]> results = new List<double[]>();
             for (long i = sampleSize; i > 0; i--)
             {
-                if (i % (sampleSize/10) == 0) Console.WriteLine(i + "%");
+                if (i % (sampleSize/10) == 0) Console.WriteLine(i/ (sampleSize/100) + "%");
                 Ngon ngon = generateRandomNgon(n);
 
                 var permutations = (new NgonEdgePermutations(ngon)).edgePermutations();
