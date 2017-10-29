@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +14,9 @@ namespace MathProject
     public class Program
     {
         static void Main(string[] args)
-        {           
+        {
+            Console.WriteLine("How many times to repeat the experiment?");
+            long outerSampleSize = Int64.Parse(Console.ReadLine());
             Console.WriteLine("How many dimensions are we working with?");
             int n = Int32.Parse(Console.ReadLine());
              
