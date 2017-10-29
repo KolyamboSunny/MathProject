@@ -11,12 +11,15 @@
             <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <Button Name="but_randomNgon" Content="Random Ngon" HorizontalAlignment="Right" Margin="10,10,10,0" VerticalAlignment="Top" Click="but_randomNgon_Click" Width="112" Grid.Column="1"/>
+        <Button Name="but_randomNgon" Content="Random Ngon" HorizontalAlignment="Right" Margin="0,10,10,0" VerticalAlignment="Top" Click="but_randomNgon_Click" Width="107" Grid.Column="1"/>
         <Grid Name="frame" Margin="50,50,50,50" Grid.Column="0" />
         <Grid Grid.Column="1">
-            <Label Name="lab_angles" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Width="107"/>
-            <Label x:Name="lab_type" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Width="107"/>
+            <Label Name="lab_angles" Content="" HorizontalAlignment="Left" Margin="10,73,0,0" VerticalAlignment="Top" Width="107"/>
+            <Label x:Name="lab_type" Content="" HorizontalAlignment="Left" Margin="10,104,0,0" VerticalAlignment="Top" Width="107"/>
+            <TextBox Name="text_dimensions"  HorizontalAlignment="Left" Height="30" Margin="75,38,0,0" TextWrapping="Wrap" Text="4" VerticalAlignment="Top" Width="49"/>
+            <Label Content="Dimensions:" HorizontalAlignment="Left" Height="30" Margin="0,38,0,0" VerticalAlignment="Top" Width="75"/>
         </Grid>
-        <Button x:Name="but_ngonDistribution" Content="Ngon Distribution" HorizontalAlignment="Right" Margin="10,150,10,0" VerticalAlignment="Top" Click="but_ngonDistribution_Click" Width="112" Grid.Column="1"/>
+        <Button x:Name="but_ngonDistribution" Content="Ngon Distribution" HorizontalAlignment="Right" Margin="0,150,10,0" VerticalAlignment="Top" Click="but_ngonDistribution_Click" Width="107" Grid.Column="1"/>
+        <Button x:Name="but_ngonPermutations" Content="Ngon Permutations" HorizontalAlignment="Right" Margin="0,175,10,0" VerticalAlignment="Top" Width="107" Grid.Column="1" Click="but_ngonPermutations_Click" IsEnabled="False"/>
     </Grid>
 </Window>
