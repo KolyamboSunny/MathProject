@@ -46,20 +46,25 @@ namespace MathProject.Tools
     }
     public class PluckerMatrix:Matrix
     {
-        public PluckerMatrix(Ngon ngon):this(ngon.getEdgeVectors()){}
+        public PluckerMatrix(Ngon ngon):this(ngon.getOrthonormal()){}
         public PluckerMatrix(double[][] vectors)
         {
-            this.columnVectors = new double[vectors.Count()][];
-            for (int i = 0; i < vectors.Count(); i++) columnVectors[i] = new double[vectors.Count()];
+            int length = vectors[0].Count();
+            this.columnVectors = new double[length][];
+           
 
-            for (int j = 0; j < vectors.Count(); j++)
+            for (int j = 0; j < length; j++)
             {
-                double aj = vectors[j][0], bj = vectors[j][1];
-                for (int i = 0; i < vectors.Count(); i++)
+                double[] column = new double[length];
+
+                double aj = vectors[0][j], bj = vectors[1][j];
+
+                for (int i = 0; i < length; i++)
                 {
-                    double ai = vectors[i][0], bi = vectors[i][1];
-                    columnVectors[j][i] = ai * bj - aj * bi;
+                    double ai = vectors[0][i], bi = vectors[1][i];
+                    column[i] = ai * bj - aj * bi;
                 }
+                columnVectors[j] = column;
             }
         }
         public PluckerMatrix() { }
@@ -67,20 +72,25 @@ namespace MathProject.Tools
 
     public class ProjectionMatrix:Matrix
     {
-        public ProjectionMatrix(Ngon ngon) : this(ngon.getEdgeVectors()) { }
+        public ProjectionMatrix(Ngon ngon) : this(ngon.getOrthonormal()) { }
         public ProjectionMatrix(double[][] vectors)
         {
-            columnVectors = new double[vectors.Count()][];
-            for (int i = 0; i < vectors.Count(); i++) columnVectors[i] = new double[vectors.Count()];
 
-            for (int j = 0; j < vectors.Count(); j++)
+            int length = vectors[0].Count();
+            this.columnVectors = new double[length][];
+
+            for (int j = 0; j < length; j++)
             {
-                double aj = vectors[j][0], bj = vectors[j][1];
-                for (int i = 0; i < vectors.Count(); i++)
+                double[] column = new double[length];
+
+                double aj = vectors[0][j], bj = vectors[1][j];
+
+                for (int i = 0; i < length; i++)
                 {
-                    double ai = vectors[i][0], bi = vectors[i][1];
-                    columnVectors[j][i] = ai * aj + bi*bj;
+                    double ai = vectors[0][i], bi = vectors[1][i];
+                    column[i] = ai * aj + bj * bi;
                 }
+                columnVectors[j] = column;
             }
         }
         public ProjectionMatrix() { }

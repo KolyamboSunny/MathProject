@@ -65,7 +65,7 @@ namespace MathProject
             double[][] orthonormal = GramSchmidt(new double[][] { vector1, vector2 });
             double[][] edgeVectors = squareEntries(orthonormal);
 
-            return new Ngon(edgeVectors);
+            return new Ngon(edgeVectors,orthonormal);
         }
 
         public static double[] generateVector(int n)
