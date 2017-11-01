@@ -70,6 +70,65 @@ namespace MathProject.Tools
         public PluckerMatrix() { }
     }
 
+    public class PluckerSignMatrix
+    {
+        int[][] columnVectors;
+        Ngon ngon;
+        public PluckerSignMatrix(Ngon ngon)
+        {
+            this.ngon = ngon;
+            PluckerMatrix D = new PluckerMatrix(ngon);
+
+            this.columnVectors= new int[D.columnVectors.Count()][];
+            for (int i = 0; i < D.columnVectors.Count(); i++)
+            {
+                this.columnVectors[i] = D.columnVectors[i].Select(n => Math.Sign(n)).ToArray();
+            }          
+        }
+
+        public override string ToString()
+        {
+            string result = "";
+            for (int i = 0; i < columnVectors[0].Count(); i++)
+            {
+                result += "| ";
+                for (int j = 0; j < columnVectors.Count(); j++)
+                {
+                    if (j < i)
+                    {
+                        result += "  ";
+                        continue;
+                    }
+                    if (columnVectors[j][i] == -1) result += "- ";
+                    if (columnVectors[j][i] == 1) result += "+ ";
+                    if (columnVectors[j][i] == 0) result += "0 ";
+                }
+                result += "|\n";
+            }
+            return result;
+        }
+        public string ToHtml()
+        {
+            string result = "";
+            for (int i = 0; i < columnVectors[0].Count(); i++)
+            {
+                result += "| ";
+                for (int j = 0; j < columnVectors.Count(); j++)
+                {
+                    if (j < i)
+                    {
+                        result += "  ";
+                        continue;
+                    }
+                    if (columnVectors[j][i] == -1) result += "- ";
+                    if (columnVectors[j][i] == 1) result += "+ ";
+                    if (columnVectors[j][i] == 0) result += "0 ";
+                }
+                result += "|\n";
+            }
+            return result;
+        }
+    }
     public class ProjectionMatrix:Matrix
     {
         public ProjectionMatrix(Ngon ngon) : this(ngon.getOrthonormal()) { }

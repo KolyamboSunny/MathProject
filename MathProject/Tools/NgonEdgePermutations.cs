@@ -1,10 +1,11 @@
-﻿using System;
+﻿using MathProject.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MathProject.Entities
+namespace MathProject.Tools
 {
     public class NgonEdgePermutations
     {

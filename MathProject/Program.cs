@@ -8,6 +8,7 @@ using Accord.Math.Decompositions;
 using MathNet.Numerics.LinearAlgebra;
 using MathProject.Entities;
 using System.IO;
+using MathProject.Tools;
 
 namespace MathProject
 {
@@ -15,17 +16,24 @@ namespace MathProject
     {
         static void Main(string[] args)
         {
+            PluckerSignMatrix p = new PluckerSignMatrix(generateRandomNgon(5));
+            Console.WriteLine(p);
+            Console.Read();
+        }
+
+        private static void NgonEdgePermutationExperiment()
+        {
             Console.WriteLine("How many times to repeat the experiment?");
             long outerSampleSize = Int64.Parse(Console.ReadLine());
             Console.WriteLine("How many dimensions are we working with?");
             int n = Int32.Parse(Console.ReadLine());
-             
+
             Console.WriteLine("How big is the sample size?");
             long sampleSize = Int64.Parse(Console.ReadLine());
             List<double[]> results = new List<double[]>();
             for (long i = sampleSize; i > 0; i--)
             {
-                if (i % (sampleSize/10) == 0) Console.WriteLine(i/ (sampleSize/100) + "%");
+                if (i % (sampleSize / 10) == 0) Console.WriteLine(i / (sampleSize / 100) + "%");
                 Ngon ngon = generateRandomNgon(n);
 
                 var permutations = (new NgonEdgePermutations(ngon)).edgePermutations();
@@ -33,7 +41,7 @@ namespace MathProject
                 int reflex = permutations.Count(m => m.Type == NgonType.Reflex);
                 int self_intersecting = permutations.Count(m => m.Type == NgonType.Self_Intersecting);
 
-                double[] entry=results.Find(e => e[0] == convex && e[1] == reflex && e[2] == self_intersecting);
+                double[] entry = results.Find(e => e[0] == convex && e[1] == reflex && e[2] == self_intersecting);
                 if (entry != null) entry[3]++;
                 else results.Add(new double[] { convex, reflex, self_intersecting, 1 });
             }
