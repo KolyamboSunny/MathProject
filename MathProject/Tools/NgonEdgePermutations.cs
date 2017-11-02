@@ -10,9 +10,16 @@ namespace MathProject.Tools
     public class NgonEdgePermutations
     {
         double[][] edgeVectors;
+        public ICollection<Ngon> Permutations;
+
+        public uint convex = 0;
+        public uint reflex = 0;
+        public uint self_intersecting = 0;
+
         public NgonEdgePermutations(Ngon ngon)
         {
             this.edgeVectors = ngon.getEdgeVectors();
+            Permutations = edgePermutations();
         }
         public ICollection<Ngon> edgePermutations()
         {
@@ -22,11 +29,17 @@ namespace MathProject.Tools
             foreach(var ngonVectors in permutations)
             {
                 double[][] evect = ngonVectors.ToArray();
-                result.Add(new Ngon(evect));
-
+                Ngon n = new Ngon(evect);
+                result.Add(n);
+                if (n.Type == NgonType.Convex) this.convex++;
+                if (n.Type == NgonType.Reflex) this.reflex++;
+                if (n.Type == NgonType.Self_Intersecting) this.self_intersecting++;
             }
             return result;
         }
+
+
+        #region Helpers
         public IEnumerable<IEnumerable<T>> GetPermutations<T>(IEnumerable<T> enumerable)
         {
             var array = enumerable as T[] ?? enumerable.ToArray();
@@ -42,7 +55,6 @@ namespace MathProject.Tools
                 yield return GeneratePermutation(array, sequence);
             }
         }
-
         private IEnumerable<T> GeneratePermutation<T>(T[] array, IReadOnlyList<int> sequence)
         {
             var clone = (T[])array.Clone();
@@ -88,7 +100,7 @@ namespace MathProject.Tools
 
             return result;
         }
-
+        #endregion
 
     }
 }

@@ -16,9 +16,21 @@ namespace MathProject
     {
         static void Main(string[] args)
         {
-            PluckerSignMatrix p = new PluckerSignMatrix(generateRandomNgon(5));
-            Console.WriteLine(p);
+            SignMatrixDistribution();
             Console.Read();
+        }
+
+        private static void SignMatrixDistribution()
+        {
+            Console.WriteLine("How many dimensions are we working with?");
+            int n = Int32.Parse(Console.ReadLine());
+
+            Console.WriteLine("How big is the sample size?");
+            long sampleSize = Int64.Parse(Console.ReadLine());
+
+            PluckerSignMatrixDistribution p = new PluckerSignMatrixDistribution(sampleSize, n);
+            p.saveToHtml("experiment3.html");
+            Console.WriteLine("DONE");
         }
 
         private static void NgonEdgePermutationExperiment()
@@ -50,8 +62,8 @@ namespace MathProject
                 writeCSV(entry);
             }
             Console.WriteLine("DONE");
-            Console.Read();
         }
+
 
         private static void writeCSV(double[] toWrite)
         {
@@ -64,7 +76,7 @@ namespace MathProject
             writer.Close();
         }
 
-
+        #region NgonGeneration
         public static Ngon generateRandomNgon(int n)
         {
             double[] vector1 = generateVector(n);
@@ -106,6 +118,7 @@ namespace MathProject
             }
             return result;
         }
+        #endregion
     }
 
    

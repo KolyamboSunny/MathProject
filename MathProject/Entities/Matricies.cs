@@ -73,7 +73,7 @@ namespace MathProject.Tools
     public class PluckerSignMatrix
     {
         int[][] columnVectors;
-        Ngon ngon;
+        public Ngon ngon;
         public PluckerSignMatrix(Ngon ngon)
         {
             this.ngon = ngon;
@@ -109,24 +109,39 @@ namespace MathProject.Tools
         }
         public string ToHtml()
         {
-            string result = "";
+            string result = "<table style = \"border: 1px solid black; \">\n";
             for (int i = 0; i < columnVectors[0].Count(); i++)
             {
-                result += "| ";
+                result += "<tr>";
                 for (int j = 0; j < columnVectors.Count(); j++)
                 {
+                    result += "<td>";
                     if (j < i)
                     {
-                        result += "  ";
+                        result += " ";
                         continue;
                     }
-                    if (columnVectors[j][i] == -1) result += "- ";
-                    if (columnVectors[j][i] == 1) result += "+ ";
-                    if (columnVectors[j][i] == 0) result += "0 ";
+                    if (columnVectors[j][i] == -1) result += "-";
+                    if (columnVectors[j][i] == 1) result += "+";
+                    if (columnVectors[j][i] == 0) result += "0";
+                    result += "</td>";
                 }
-                result += "|\n";
+                result += "</tr>\n";
             }
+            result += "</table>";
             return result;
+        }
+        public override bool Equals(object obj)
+        {
+            for(int i=0;i<this.columnVectors.Count();i++)
+            {
+                if (!this.columnVectors[i].SequenceEqual(((PluckerSignMatrix)obj).columnVectors[i])) return false;
+            }
+            return true;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
     public class ProjectionMatrix:Matrix

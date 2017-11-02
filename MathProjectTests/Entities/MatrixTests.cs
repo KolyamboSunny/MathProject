@@ -46,7 +46,7 @@ namespace MathProject.Tools.Tests
         [TestMethod()]
         public void PluckerAndProjectionMatrixEquality()
         {
-            Ngon ngon = Program.generateRandomNgon(4);           
+            Ngon ngon = Program.generateRandomNgon(4);
             PluckerMatrix plucker = PluckerMatrixTest(ngon);
             ProjectionMatrix projection = ProjectionMatrixTest(ngon);
 
@@ -59,15 +59,24 @@ namespace MathProject.Tools.Tests
             compareMatricies(Dnsq, P);
         }
 
-        private void compareMatricies(Matrix<double>a, Matrix<double> b)
+        private void compareMatricies(Matrix<double> a, Matrix<double> b)
         {
-            for(int i=0;i<a.RowCount;i++)
+            for (int i = 0; i < a.RowCount; i++)
             {
-                for(int j = 0; j < a.ColumnCount; j++)
+                for (int j = 0; j < a.ColumnCount; j++)
                 {
-                    Assert.AreEqual(a[i, j], b[i, j],0.00000000001);
+                    Assert.AreEqual(a[i, j], b[i, j], 0.00000000001);
                 }
             }
         }
+
+        [TestMethod()]
+        public void SignMatrixEqualsTest()
+        {
+            Ngon ngon = Program.generateRandomNgon(6);
+            PluckerSignMatrix a = new PluckerSignMatrix(ngon);
+            PluckerSignMatrix b = new PluckerSignMatrix(ngon);
+            Assert.IsTrue(a.Equals(b));
+        }      
     }
 }
