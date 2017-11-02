@@ -6,8 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MathProject;
-using MathProject.Tools;
-
 namespace MathProject.Entities.Tests
 {
     [TestClass()]
