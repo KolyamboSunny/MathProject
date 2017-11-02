@@ -1,5 +1,6 @@
 ﻿using MathProject;
 using MathProject.Entities;
+using MathProject.Tools;
 using MathProjectVisualization.VisualEntities;
 using System;
 using System.Collections.Generic;
