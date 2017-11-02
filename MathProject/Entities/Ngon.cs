@@ -20,13 +20,6 @@ namespace MathProject.Entities
             Array.Copy(this.EdgeVectors, result, this.EdgeVectors.Length);
             return result;
         }
-        private double[][] Orthonormal;//fix name, does not sound correct
-        public double[][] getOrthonormal()
-        {
-            double[][] result = new double[this.Orthonormal.Length][];
-            Array.Copy(this.Orthonormal, result, this.Orthonormal.Length);
-            return result;
-        }
 
         public double AngleSum
         {
@@ -52,10 +45,6 @@ namespace MathProject.Entities
             }
             if (Math.Round(cumulative[0],8) != 0 && Math.Round(cumulative[1], 8) != 0) throw (new Exception("Ngon is not closed!"));
             calculateAngles();
-        }
-        public Ngon(double[][] edgeVectors,double[][] orthonormal):this(edgeVectors)
-        {
-            this.Orthonormal = orthonormal;
         }
 
         public void calculateAngles()
