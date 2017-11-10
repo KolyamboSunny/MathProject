@@ -26,7 +26,25 @@ namespace MathProject.Tools
         public int[][] signChambers() { return signChambers(columnVectors); }
 
 
-
+        public override string ToString()
+        {
+            string result = "";
+            for (int i = 0; i < columnVectors[0].Count(); i++)
+            {
+                result += "| ";
+                for (int j = 0; j < columnVectors.Count(); j++)
+                {
+                    if (j < i)
+                    {
+                        result += "  ";
+                        continue;
+                    }
+                    result += columnVectors[i][j];
+                }
+                result += "|\n";
+            }
+            return result;
+        }
         public override bool Equals(object obj)
         {
             try
@@ -72,7 +90,7 @@ namespace MathProject.Tools
 
     public class PluckerSignMatrix
     {
-        int[][] columnVectors;
+        public int[][] columnVectors;
         public Ngon ngon;
         public PluckerSignMatrix(Ngon ngon)
         {
@@ -84,6 +102,27 @@ namespace MathProject.Tools
             {
                 this.columnVectors[i] = D.columnVectors[i].Select(n => Math.Sign(n)).ToArray();
             }          
+        }
+
+        public int countPositive()
+        { return count(1); }
+        public int countNegative()
+        { return count(-1); }
+        private int count(int sign)
+        {
+            int result = 0;
+            for (int i = 0; i < columnVectors[0].Count(); i++)
+            {
+                for (int j = 0; j < columnVectors.Count(); j++)
+                {
+                    if (j < i)
+                    {                        
+                        continue;
+                    }                    
+                    if (columnVectors[j][i] == sign) result ++;                    
+                }                
+            }
+            return result;
         }
 
         public override string ToString()
@@ -107,7 +146,7 @@ namespace MathProject.Tools
             }
             return result;
         }
-        public string ToHtml()
+        public virtual string ToHtml()
         {
             string result = "<table style = \"border: 1px solid black; \">\n";
             for (int i = 0; i < columnVectors[0].Count(); i++)
@@ -131,12 +170,71 @@ namespace MathProject.Tools
             result += "</table>";
             return result;
         }
+        
         public override bool Equals(object obj)
         {
             for(int i=0;i<this.columnVectors.Count();i++)
             {
                 if (!this.columnVectors[i].SequenceEqual(((PluckerSignMatrix)obj).columnVectors[i])) return false;
             }
+            return true;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
+    public class ReducedPluckerSignMatrix:PluckerSignMatrix
+    {
+        public int[] data;
+
+        public ReducedPluckerSignMatrix(Ngon ngon):base(ngon)
+        {
+            this.ngon = ngon;
+            PluckerSignMatrix sD = new PluckerSignMatrix(ngon);
+            this.data = new int[ngon.Verticies.Count()];
+            for (int i = 0; i < ngon.Verticies.Count()-1; i++)
+            {
+                this.data[i] = Math.Sign(sD.columnVectors[i + 1][i]);
+            }
+            this.data[ngon.Verticies.Count() - 1] = Math.Sign(sD.columnVectors[ngon.Verticies.Count()-1][0]);
+
+        }
+
+        public override string ToString()
+        {
+            string result = "";
+            result += "| ";
+            for (int j = 0; j < data.Count(); j++)
+            {
+                if (data[j] == -1) result += "- ";
+                if (data[j] == 1) result += "+ ";
+                if (data[j] == 0) result += "0 ";                
+                result += "|\n";
+            }
+            return result;
+        }
+        public override string ToHtml()
+        {
+            string result = "<table style = \"border: 1px solid black; \">\n";
+            result += "<tr>";
+            for (int j = 0; j < data.Count(); j++)
+            {
+                result += "<td>";
+                
+                if (data[j] == -1) result += "-";
+                if (data[j] == 1) result += "+";
+                if (data[j] == 0) result += "0";
+                    result += "</td>";
+            }
+            result += "</tr>\n";
+
+            result += "</table>";
+            return result;
+        }
+        public override bool Equals(object obj)
+        {
+            if (!this.data.SequenceEqual(((ReducedPluckerSignMatrix)obj).data)) return false;            
             return true;
         }
         public override int GetHashCode()
