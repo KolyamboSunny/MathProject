@@ -16,7 +16,7 @@ namespace MathProject
     {
         static void Main(string[] args)
         {
-            ReducedSignMatrixDistribution();
+            SignMatrixExperiment();
             Console.Read();
         }
         private static void SignMatrixExperiment()
@@ -28,10 +28,14 @@ namespace MathProject
             long sampleSize = Int64.Parse(Console.ReadLine());
 
             PluckerSignMatrixDistribution p = new PluckerSignMatrixDistribution(sampleSize, n);
-            Console.WriteLine("Even number of signs means convex: " + p.testEvenSignsHypothesis());
-            p.showOnly("experiment4.html",NgonType.Convex);
+            //Console.WriteLine("Even number of signs means convex: " + p.testEvenSignsHypothesis());
+            //p.sortFullBySimilarity();
+            //p.showOnly("experiment4.html",NgonType.Convex);
+            p.saveFullToHtml(n+"_"+sampleSize+"_Full"+".html");
+            p.saveReducedToHtml(n + "_" + sampleSize + "_Reduced" + ".html");
             Console.WriteLine("DONE");
         }
+        /*
         private static void ReducedSignMatrixDistribution()
         {
             Console.WriteLine("How many dimensions are we working with?");
@@ -44,7 +48,7 @@ namespace MathProject
             Console.WriteLine("Even number of signs means convex: " + p.testEvenSignsHypothesis());
             p.saveToHtmlDistribution("experiment3.html");
             Console.WriteLine("DONE");
-        }
+        }*/
         private static void SignMatrixDistribution()
         {
             Console.WriteLine("How many dimensions are we working with?");
@@ -54,8 +58,8 @@ namespace MathProject
             long sampleSize = Int64.Parse(Console.ReadLine());
 
             PluckerSignMatrixDistribution p = new PluckerSignMatrixDistribution(sampleSize, n);
-            Console.WriteLine("Even number of signs means convex: "+p.testEvenSignsHypothesis());
-            p.saveToHtmlDistribution("experiment3.html");
+            Console.WriteLine("Even number of signs means convex: "+p.testEvenSignsHypothesis());            
+            p.saveFullToHtml("experiment3.html");
             Console.WriteLine("DONE");
         }
         private static void SignMatrixPermutation()

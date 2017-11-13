@@ -29,7 +29,7 @@ namespace MathProjectVisualization
         }
         public void draw()
         {
-            foreach(PluckerSignMatrix s in signMatricies.similarMatrix.Keys)
+            //foreach(PluckerSignMatrix s in signMatricies..Keys)
             {
                 grid.RowDefinitions.Add(new RowDefinition());
             }
