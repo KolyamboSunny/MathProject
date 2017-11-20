@@ -74,8 +74,8 @@ namespace MathProject.Tools.Tests
         public void SignMatrixEqualsTest()
         {
             Ngon ngon = Program.generateRandomNgon(6);
-            PluckerSignMatrix a = new PluckerSignMatrix(ngon);
-            PluckerSignMatrix b = new PluckerSignMatrix(ngon);
+            SignMatrix a = new SignMatrix(new PluckerMatrix(ngon));
+            SignMatrix b = new SignMatrix(new PluckerMatrix(ngon));
             Assert.IsTrue(a.Equals(b));
         }      
     }

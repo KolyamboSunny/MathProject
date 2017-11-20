@@ -46,7 +46,7 @@ namespace MathProjectVisualization
             currentNgon = Program.generateRandomNgon(dimensions);
             but_ngonPermutations.IsEnabled = true;
             VisualNgon n = new VisualNgon(currentNgon);
-            lab_PluckerMatrix.Content = new PluckerSignMatrix(currentNgon).ToString();
+            lab_PluckerMatrix.Content = (new SignMatrix(new PluckerMatrix(currentNgon))).ToString();
             n.draw(frame);
             displayAngleSum(currentNgon);
             displayType(currentNgon);

@@ -60,8 +60,11 @@
     <Compile Include="NgonDistribution.xaml.cs">
       <DependentUpon>NgonDistribution.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SignMatrix.xaml.cs">
-      <DependentUpon>SignMatrix.xaml</DependentUpon>
+    <Compile Include="SignMatrixVisualization\SignMatrixListItem.xaml.cs">
+      <DependentUpon>SignMatrixListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SignMatrixVisualization\SignMatrixVisualization.xaml.cs">
+      <DependentUpon>SignMatrixVisualization.xaml</DependentUpon>
     </Compile>
     <Compile Include="VisualEntities\VisualNgon.cs" />
     <Page Include="MainWindow.xaml">
@@ -84,7 +87,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SignMatrix.xaml">
+    <Page Include="SignMatrixVisualization\SignMatrixListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SignMatrixVisualization\SignMatrixVisualization.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -121,5 +128,6 @@
       <Name>MathProject</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

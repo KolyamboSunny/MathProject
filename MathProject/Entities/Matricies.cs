@@ -12,60 +12,28 @@ namespace MathProject.Tools
     {
         string ToHtml();
     }
-
-    public abstract class SignMatrix:IPrintableMatrix
-    {
-        public SignMatrix(Ngon ngon) { }
-
-        public abstract string ToHtml();
-    }
-
-    public class PluckerMatrix
+    public abstract class Matrix
     {
         public double[][] columnVectors;
-        public PluckerMatrix(Ngon ngon):this(ngon.getOrthonormal()){}
-        public PluckerMatrix(double[][] vectors)
-        {
-            int length = vectors[0].Count();
-            this.columnVectors = new double[length][];
-           
-
-            for (int j = 0; j < length; j++)
-            {
-                double[] column = new double[length];
-
-                double aj = vectors[0][j], bj = vectors[1][j];
-
-                for (int i = 0; i < length; i++)
-                {
-                    double ai = vectors[0][i], bi = vectors[1][i];
-                    column[i] = ai * bj - aj * bi;
-                }
-                columnVectors[j] = column;
-            }
-        }
-        public PluckerMatrix() { }
+        public Matrix(Ngon ngon){ }
+        public Matrix(double[][] vectors) { }
     }
 
-    public class PluckerSignMatrix: SignMatrix
+    public class SignMatrix:IPrintableMatrix
     {
         public int[][] columnVectors;
-        public Ngon ngon;
-        public ReducedPluckerSignMatrix Reduced;
-
-        public PluckerSignMatrix(Ngon ngon):base(ngon)
-        {
-            this.ngon = ngon;
-            PluckerMatrix D = new PluckerMatrix(ngon);
-
-            this.columnVectors= new int[D.columnVectors.Count()][];
+        public ReducedSignMatrix Reduced;
+        
+        public SignMatrix(Matrix D)
+        {                        
+            this.columnVectors = new int[D.columnVectors.Count()][];
             for (int i = 0; i < D.columnVectors.Count(); i++)
             {
                 this.columnVectors[i] = D.columnVectors[i].Select(n => Math.Sign(n)).ToArray();
             }
-            this.Reduced = new ReducedPluckerSignMatrix(this);
-        }       
-       
+            this.Reduced = new ReducedSignMatrix(this);
+        }
+
         public int countPositive()
         { return count(1); }
         public int countNegative()
@@ -78,11 +46,11 @@ namespace MathProject.Tools
                 for (int j = 0; j < columnVectors.Count(); j++)
                 {
                     if (j < i)
-                    {                        
+                    {
                         continue;
-                    }                    
-                    if (columnVectors[j][i] == sign) result ++;                    
-                }                
+                    }
+                    if (columnVectors[j][i] == sign) result++;
+                }
             }
             return result;
         }
@@ -108,7 +76,7 @@ namespace MathProject.Tools
             }
             return result;
         }
-        public override string ToHtml()
+        public virtual string ToHtml()
         {
             string result = "<table style = \"border: 1px solid black; \">\n";
             for (int i = 0; i < columnVectors[0].Count(); i++)
@@ -132,25 +100,53 @@ namespace MathProject.Tools
             result += "</table>";
             return result;
         }
-        
+
         public override bool Equals(object obj)
         {
-            for(int i=0;i<this.columnVectors.Count();i++)
+            for (int i = 0; i < this.columnVectors.Count(); i++)
             {
-                if (!this.columnVectors[i].SequenceEqual(((PluckerSignMatrix)obj).columnVectors[i])) return false;
+                if (!this.columnVectors[i].SequenceEqual(((SignMatrix)obj).columnVectors[i])) return false;
             }
             return true;
         }
         public override int GetHashCode()
         {
             return base.GetHashCode();
-        }
+        }        
     }
-    public class ReducedPluckerSignMatrix: SignMatrix,IComparable
+
+    public class PluckerMatrix:Matrix
+    {
+       
+        public PluckerMatrix(Ngon ngon):this(ngon.getOrthonormal()){}
+        public PluckerMatrix(double[][] vectors):base(vectors)
+        {
+            int length = vectors[0].Count();
+            this.columnVectors = new double[length][];
+           
+
+            for (int j = 0; j < length; j++)
+            {
+                double[] column = new double[length];
+
+                double aj = vectors[0][j], bj = vectors[1][j];
+
+                for (int i = 0; i < length; i++)
+                {
+                    double ai = vectors[0][i], bi = vectors[1][i];
+                    column[i] = ai * bj - aj * bi;
+                }
+                columnVectors[j] = column;
+            }
+        }
+        
+    }
+
+    public class ReducedSignMatrix: IComparable, IPrintableMatrix
     {
         public int[] data;
 
-        public ReducedPluckerSignMatrix(PluckerSignMatrix matrix):base(matrix.ngon)
+        public ReducedSignMatrix(SignMatrix matrix)
         {
             
             int length = matrix.columnVectors.Count()-1;
@@ -185,7 +181,7 @@ namespace MathProject.Tools
             }
             return result;
         }
-        public override string ToHtml()
+        public string ToHtml()
         {
             string result = "<table style = \"border: 1px solid black; \">\n";
             result += "<tr>";
@@ -206,12 +202,12 @@ namespace MathProject.Tools
 
         public override bool Equals(object obj)
         {
-            if (!this.data.SequenceEqual(((ReducedPluckerSignMatrix)obj).data)) return false;            
+            if (!this.data.SequenceEqual(((ReducedSignMatrix)obj).data)) return false;            
             return true;
         }
         public int CompareTo(object obj)
         {
-            ReducedPluckerSignMatrix other = (ReducedPluckerSignMatrix)obj;
+            ReducedSignMatrix other = (ReducedSignMatrix)obj;
             if (this.data.Length > other.data.Length) return 1;
             if (this.data.Length < other.data.Length) return -1;
             for (int i=0;i< this.data.Length; i++ )
@@ -229,11 +225,10 @@ namespace MathProject.Tools
 
     }
 
-    public class ProjectionMatrix
+    public class ProjectionMatrix:Matrix
     {
-        public double[][] columnVectors;
         public ProjectionMatrix(Ngon ngon) : this(ngon.getOrthonormal()) { }
-        public ProjectionMatrix(double[][] vectors)
+        public ProjectionMatrix(double[][] vectors):base(vectors)
         {
 
             int length = vectors[0].Count();
@@ -253,6 +248,6 @@ namespace MathProject.Tools
                 columnVectors[j] = column;
             }
         }
-        public ProjectionMatrix() { }
+        //public ProjectionMatrix() { }
     }
 }

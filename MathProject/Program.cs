@@ -1,14 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Accord.Statistics.Distributions.Univariate;
-using Accord.Math.Decompositions;
 using MathNet.Numerics.LinearAlgebra;
 using MathProject.Entities;
-using System.IO;
 using MathProject.Tools;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace MathProject
 {
@@ -18,7 +15,7 @@ namespace MathProject
         {
             SignMatrixExperiment();
             Console.Read();
-        }
+        }        
         private static void SignMatrixExperiment()
         {
             Console.WriteLine("How many dimensions are we working with?");
@@ -26,13 +23,15 @@ namespace MathProject
 
             Console.WriteLine("How big is the sample size?");
             long sampleSize = Int64.Parse(Console.ReadLine());
-
-            PluckerSignMatrixDistribution p = new PluckerSignMatrixDistribution(sampleSize, n);
+            //ProjectionSignMatrixDistribution D = new ProjectionSignMatrixDistribution(sampleSize, n);
+            //PluckerSignMatrixDistribution p = new PluckerSignMatrixDistribution(sampleSize, n);
+            PluckerAndProjectionMatricesDistribution pd = new PluckerAndProjectionMatricesDistribution(sampleSize, n);
+            pd.saveToHtml(n + "_" + sampleSize + ".html");
             //Console.WriteLine("Even number of signs means convex: " + p.testEvenSignsHypothesis());
             //p.sortFullBySimilarity();
             //p.showOnly("experiment4.html",NgonType.Convex);
-            p.saveFullToHtml(n+"_"+sampleSize+"_Full"+".html");
-            p.saveReducedToHtml(n + "_" + sampleSize + "_Reduced" + ".html");
+            //pd.saveFullToHtml(n+"_"+sampleSize+"_Full"+".html");
+            //p.saveReducedToHtml(n + "_" + sampleSize + "_Reduced" + ".html");
             Console.WriteLine("DONE");
         }
         /*
