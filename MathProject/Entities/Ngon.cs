@@ -5,15 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 using MathNet.Numerics.LinearAlgebra;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MathProject.Entities
 {
     public class Ngon
     {
+        public long NgonId { get; set; }
         public List<Vertex> Verticies = new List<Vertex>();
         public Dictionary<Vertex, double> relatedAngles = new Dictionary<Vertex, double>();
         public List<Edge> Edges = new List<Edge>();
-        private double[][] EdgeVectors;
+        private double[][] EdgeVectors { get; set; }
         public double[][] getEdgeVectors()
         {
             double[][] result = new double[this.EdgeVectors.Length][];
@@ -37,6 +40,7 @@ namespace MathProject.Entities
             }
         }
 
+        public Ngon() { }
         public Ngon(double[][] edgeVectors)
         {
             this.EdgeVectors = edgeVectors;
@@ -48,12 +52,12 @@ namespace MathProject.Entities
                 cumulative[0] += entry[0];
                 cumulative[1] += entry[1];
                 Vertex to = new Vertex(cumulative[0], cumulative[1]);
-                Edges.Add(new Edge(to, from,entry));
+                Edges.Add(new Edge(to, from, entry));
             }
-            if (Math.Round(cumulative[0],8) != 0 && Math.Round(cumulative[1], 8) != 0) throw (new Exception("Ngon is not closed!"));
+            if (Math.Round(cumulative[0], 8) != 0 && Math.Round(cumulative[1], 8) != 0) throw (new Exception("Ngon is not closed!"));
             calculateAngles();
         }
-        public Ngon(double[][] edgeVectors,double[][] orthonormal):this(edgeVectors)
+        public Ngon(double[][] edgeVectors, double[][] orthonormal) : this(edgeVectors)
         {
             this.Orthonormal = orthonormal;
         }
@@ -69,26 +73,26 @@ namespace MathProject.Entities
                 relatedAngles[vertex] = angle;
             }
         }
-        public double angleBetweenEdgesRadians(Edge a,Edge b) //in radians
+        public double angleBetweenEdgesRadians(Edge a, Edge b) //in radians
         {
             Vector<double> av = Vector<double>.Build.DenseOfArray(a.vector);
             Vector<double> bv = Vector<double>.Build.DenseOfArray(b.vector);
 
-            double dotProduct=av.DotProduct(bv);
-            double magnitudeA = Math.Sqrt(Math.Pow(av[0],2)+ Math.Pow(av[1], 2));
+            double dotProduct = av.DotProduct(bv);
+            double magnitudeA = Math.Sqrt(Math.Pow(av[0], 2) + Math.Pow(av[1], 2));
             double magnitudeB = Math.Sqrt(Math.Pow(bv[0], 2) + Math.Pow(bv[1], 2));
 
-            double result = Math.PI-Math.Acos(dotProduct / (magnitudeA * magnitudeB));
+            double result = Math.PI - Math.Acos(dotProduct / (magnitudeA * magnitudeB));
             return result;
         }
         public double angleBetweenEdgesDegrees(Edge a, Edge b) //in degrees
         {
 
-            double result = angleBetweenEdgesRadians(a,b)*180/Math.PI;
+            double result = angleBetweenEdgesRadians(a, b) * 180 / Math.PI;
             return result;
         }
 
-        public bool edgesIntersect(Edge e1,Edge e2)
+        public bool edgesIntersect(Edge e1, Edge e2)
         {
             Vertex v1 = e1.vertex1;
             Vertex v2 = e1.vertex2;
@@ -122,7 +126,7 @@ namespace MathProject.Entities
                 resX >= Math.Min(e2.vertex1.coordX, e2.vertex2.coordX) &&
                 resY <= Math.Max(e2.vertex1.coordY, e2.vertex2.coordY) &&
                 resY >= Math.Min(e2.vertex1.coordY, e2.vertex2.coordY));
-            if (inE1&&inE2)
+            if (inE1 && inE2)
                 return true;
             else return false;
         }
@@ -132,13 +136,13 @@ namespace MathProject.Entities
             double convexSum = 180 * (Verticies.Count - 2);
             if (Math.Round(AngleSum, 10) == Math.Round(convexSum, 10)) return NgonType.Convex;
 
-            for(int i= 0;i < Edges.Count;i++)
+            for (int i = 0; i < Edges.Count; i++)
             {
-                for(int j=i+1;j<Edges.Count;j++)
+                for (int j = i + 1; j < Edges.Count; j++)
                 {
                     Edge e1 = Edges[i];
                     Edge e2 = Edges[j];
-                    if (e1.vertex1.Equals(e2.vertex2) || e1.vertex1.Equals(e2.vertex2) || 
+                    if (e1.vertex1.Equals(e2.vertex2) || e1.vertex1.Equals(e2.vertex2) ||
                         e1.vertex2.Equals(e2.vertex1) || e1.vertex2.Equals(e2.vertex2)) continue;
                     if (edgesIntersect(e1, e2))
                         return NgonType.Self_Intersecting;
@@ -146,9 +150,9 @@ namespace MathProject.Entities
             }
 
             return NgonType.Reflex;
-                 
+
         }
-        
+
         public NgonType Type
         {
             get
@@ -158,11 +162,15 @@ namespace MathProject.Entities
         }
 
     }
-    public enum NgonType { Convex, Reflex, Self_Intersecting,Unknown};
+    public enum NgonType { Convex, Reflex, Self_Intersecting, Unknown };
     public class Vertex
     {
-        public double coordX, coordY;
-        public Vertex(double coordX,double coordY)
+        [Key]
+        public ulong VertexId { get; set; }
+        public double coordX { get; set; }
+        public double coordY { get; set; }
+
+        public Vertex(double coordX, double coordY)
         {
             this.coordX = coordX;
             this.coordY = coordY;
@@ -172,6 +180,7 @@ namespace MathProject.Entities
             this.coordX = coords[0];
             this.coordY = coords[1];
         }
+        public Vertex() { }
         public override bool Equals(object obj)
         {
             int precision = 10;
@@ -179,7 +188,7 @@ namespace MathProject.Entities
             {
                 Vertex other = (Vertex)obj;
                 if (Math.Round(other.coordY, precision) == Math.Round(this.coordY, precision)
-                    && Math.Round(other.coordX, precision) == Math.Round(this.coordX, precision)) return true; 
+                    && Math.Round(other.coordX, precision) == Math.Round(this.coordX, precision)) return true;
             }
             catch (Exception e) { }
             return false;
@@ -191,20 +200,20 @@ namespace MathProject.Entities
     }
     public class Edge
     {
-        public Vertex vertex1, vertex2;
-        public double length;
+        [Key]
+        public long EdgeId { get; set; }
+        public Vertex vertex1 { get; set; }
+        public Vertex vertex2 { get; set; }
+        public double length
+        {
+            get { return Math.Sqrt(Math.Pow(vertex2.coordX - vertex1.coordX, 2) + Math.Pow(vertex2.coordY - vertex1.coordY, 2)); }
+        }
+
         public double[] vector;
 
         #region Ctors
-        public Edge(Vertex vertex1,Vertex vertex2,double length)
-        {
-            this.vertex1 = vertex1;
-            this.vertex2 = vertex2;
-            this.length = length;
-        }
         public Edge(Vertex vertex1, Vertex vertex2)
-        {
-            this.length = Math.Sqrt( Math.Pow(vertex2.coordX- vertex1.coordX, 2) + Math.Pow(vertex2.coordY- vertex1.coordY, 2));
+        {            
             this.vertex1 = vertex1;
             this.vertex2 = vertex2;
         }
@@ -212,11 +221,11 @@ namespace MathProject.Entities
         {
             this.vertex1 = vertex1;
             this.vertex2 = vertex2;
-            this.vector = vector;
-            this.length = Math.Sqrt(Math.Pow(vector[0],2)+Math.Pow(vector[1],2));
+            this.vector = vector;        
         }
         public Edge(Vertex vertex1, double[] vector) : this(vertex1, new Vertex(vertex1.coordX + vector[0], vertex1.coordY + vector[1]), vector)
         { }
+        public Edge() { }
         #endregion
 
         public override bool Equals(object obj)

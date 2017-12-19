@@ -77,6 +77,7 @@ namespace MathProject.Tools.Tests
             SignMatrix a = new SignMatrix(new PluckerMatrix(ngon));
             SignMatrix b = new SignMatrix(new PluckerMatrix(ngon));
             Assert.IsTrue(a.Equals(b));
-        }      
+            
+        }        
     }
 }

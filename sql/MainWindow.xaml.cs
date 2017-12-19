@@ -10,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MathProjectVisualization
+namespace sql
 {
     /// <summary>
-    /// Логика взаимодействия для SignMatrixVisualization.xaml
+    /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class SignMatrixVisualization : Window
+    public partial class MainWindow : Window
     {
-        public SignMatrixVisualization()
+        public MainWindow()
         {
             InitializeComponent();
         }

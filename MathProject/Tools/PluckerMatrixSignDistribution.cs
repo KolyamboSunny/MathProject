@@ -696,6 +696,75 @@ namespace MathProject.Tools
             writer.WriteLine("</html>");
             writer.Close();
         }
-        #endregion        
+        #endregion
+        #region TwoKeyPrinting
+        public void save2KToHtml(string filename)
+        {
+            StreamWriter writer = new StreamWriter((new FileStream(filename, FileMode.Create)));
+
+            writer.WriteLine("<!DOCTYPE html>");
+            writer.WriteLine("<html>");
+            writer.WriteLine("<head>");
+
+            string title = "Sign Matrix experiment";
+            writer.WriteLine("<title>" + title + "</title>");
+
+            writer.WriteLine("<style>");
+            writer.WriteLine("td {  text-align:center;" + "}");
+            writer.WriteLine("</style>");
+
+            writer.WriteLine("</head>");
+            writer.WriteLine("<body>");
+            writer.WriteLine("<h4>Total plucker matricies: " + similarPluckerFullMatrix.Count() +"       Total projection matrices: "+ similarProjectionFullMatrix.Count()+ "</h4>");
+            writer.WriteLine("<table>");// style=\"border: 3px solid black;>\"");
+            writer.WriteLine("<tr>" + "<th> Plucker matrix signs </th>"+ "<th> Projection matrix signs </th>" + "<th>Convex</th>" + "<th>Reflex</th>" + "<th>Self Intersecting</th>" + "<th>Total</th>" + "</tr>");
+
+            foreach (var plucker in similarPluckerFullMatrix.Keys)
+                foreach (var projection in similarProjectionFullMatrix.Keys)
+                {
+                    IEnumerable<Ngon> intersection = similarPluckerFullMatrix[plucker].Intersect(similarProjectionFullMatrix[projection]);
+                    if(intersection.Count()>0)
+                        writer.WriteLine(htmlTableRow2K(plucker, projection,intersection));
+                }
+            writer.WriteLine("</table>");
+
+            writer.WriteLine("</body>");
+            writer.WriteLine("</html>");
+            writer.Close();
+        }
+        private string htmlTableRow2K(IPrintableMatrix plucker, IPrintableMatrix projection, IEnumerable<Ngon> relatedNgons)
+        {
+            string result = "<tr style=\"border: 2px solid black;>\">";
+
+            result += "<td style=\"border: 1px solid black;>\">";
+            result += plucker.ToHtml();
+            result += "</td>";
+
+            result += "<td style=\"border: 1px solid black;>\">";
+            result += projection.ToHtml();
+            result += "</td>";
+
+            result += "<td style=\"border: 1px solid black;\">";
+            result += "<p>" + relatedNgons.Count(n => n.Type == NgonType.Convex) + "</p>";
+            result += "</td>";
+
+            result += "<td style=\"border: 1px solid black;>\">";
+            result += "<p>" + relatedNgons.Count(n => n.Type == NgonType.Reflex) + "</p>";
+            result += "</td>";
+
+            result += "<td style=\"border: 1px solid black;>\">";
+            result += "<p>" + relatedNgons.Count(n => n.Type == NgonType.Self_Intersecting) + "</p>";
+            result += "</td>";
+
+            result += "<td style=\"border: 1px solid black;>\">";
+            result += "<p>" + relatedNgons.Count() + "</p>";
+            result += "</td>";
+
+            result += "</tr>\n";
+            return result;
+        }
+        #endregion
     }
+    
+    
 }

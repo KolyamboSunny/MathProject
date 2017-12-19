@@ -13,7 +13,27 @@ namespace MathProject
     {
         static void Main(string[] args)
         {
-            SignMatrixExperiment();
+            NgonDatabase database = new NgonDatabase();
+
+            database.Database.Connection.Open();
+
+            
+            Vertex a = new Vertex(new Random().NextDouble(), new Random().NextDouble());
+            Vertex b = new Vertex(new Random().NextDouble(), new Random().NextDouble());
+
+            database.Edges.Add(new Edge(a,b));
+            database.SaveChanges();
+
+            // Display all Ngons from the database 
+            var query = from edge in database.Edges
+                        orderby edge.EdgeId
+                        select edge;
+
+            Console.WriteLine("All vertices in the database:");
+            foreach (var item in query)
+            {
+                Console.WriteLine(item.vertex1.coordX + " " + item.vertex1.coordY);
+            }
             Console.Read();
         }        
         private static void SignMatrixExperiment()
@@ -26,7 +46,8 @@ namespace MathProject
             //ProjectionSignMatrixDistribution D = new ProjectionSignMatrixDistribution(sampleSize, n);
             //PluckerSignMatrixDistribution p = new PluckerSignMatrixDistribution(sampleSize, n);
             PluckerAndProjectionMatricesDistribution pd = new PluckerAndProjectionMatricesDistribution(sampleSize, n);
-            pd.saveToHtml(n + "_" + sampleSize + ".html");
+            pd.save2KToHtml("plucker+projction " + n + "_" + sampleSize + ".html");
+            //pd.saveToHtml(n + "_" + sampleSize + ".html");
             //Console.WriteLine("Even number of signs means convex: " + p.testEvenSignsHypothesis());
             //p.sortFullBySimilarity();
             //p.showOnly("experiment4.html",NgonType.Convex);
