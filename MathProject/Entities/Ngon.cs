@@ -13,22 +13,46 @@ namespace MathProject.Entities
     public class Ngon
     {
         public long NgonId { get; set; }
-        public List<Vertex> Verticies = new List<Vertex>();
+        public virtual List<Vertex> Verticies { get; set; }
         public Dictionary<Vertex, double> relatedAngles = new Dictionary<Vertex, double>();
-        public List<Edge> Edges = new List<Edge>();
-        private double[][] EdgeVectors { get; set; }
-        public double[][] getEdgeVectors()
+        public virtual List<Edge> Edges { get; set; }
+
+        public string EdgeVectors { get; set; }
+
+        public NgonType Type { get; set; }
+
+        private double[][] decodeArray(string encoded)
         {
-            double[][] result = new double[this.EdgeVectors.Length][];
-            Array.Copy(this.EdgeVectors, result, this.EdgeVectors.Length);
+            string[] oneDimentional = encoded.Split(';');
+            double[][] result = new double[oneDimentional.Length-1][];
+            for(int i=0; i< oneDimentional.Length-1; i++)
+            {
+                result[i]= Array.ConvertAll(oneDimentional[i].Split(':'), Double.Parse);
+            }
             return result;
         }
-        private double[][] Orthonormal;//fix name, does not sound correct
-        public double[][] getOrthonormal()
+        private string encodeArray(double[][] array)
         {
-            double[][] result = new double[this.Orthonormal.Length][];
-            Array.Copy(this.Orthonormal, result, this.Orthonormal.Length);
+            string result="";            
+            foreach(double[] subArray in array)
+            {
+                for(int i=0;i<subArray.Length-1;i++)
+                {
+                    result += subArray[i] + ":";
+                }
+                result += subArray[subArray.Length-1]+ ";";
+            }
             return result;
+        }
+
+        public double[][] getEdgeVectors()
+        {            
+            return decodeArray(EdgeVectors);
+        }
+        public string Orthonormal { get; set; }//fix name, does not sound correct
+        public double[][] getOrthonormal()
+        {           
+            return decodeArray(Orthonormal);
         }
 
         public double AngleSum
@@ -43,7 +67,9 @@ namespace MathProject.Entities
         public Ngon() { }
         public Ngon(double[][] edgeVectors)
         {
-            this.EdgeVectors = edgeVectors;
+            this.EdgeVectors = encodeArray(edgeVectors);
+            this.Verticies = new List<Vertex>();
+            this.Edges = new List<Edge>();
             double[] cumulative = new double[] { 0, 0 };
             foreach (double[] entry in edgeVectors)
             {
@@ -56,10 +82,11 @@ namespace MathProject.Entities
             }
             if (Math.Round(cumulative[0], 8) != 0 && Math.Round(cumulative[1], 8) != 0) throw (new Exception("Ngon is not closed!"));
             calculateAngles();
+            this.Type = getType();
         }
         public Ngon(double[][] edgeVectors, double[][] orthonormal) : this(edgeVectors)
         {
-            this.Orthonormal = orthonormal;
+            this.Orthonormal = encodeArray(orthonormal);
         }
 
         public void calculateAngles()
@@ -153,20 +180,14 @@ namespace MathProject.Entities
 
         }
 
-        public NgonType Type
-        {
-            get
-            {
-                return getType();
-            }
-        }
+       
 
     }
     public enum NgonType { Convex, Reflex, Self_Intersecting, Unknown };
     public class Vertex
     {
         [Key]
-        public ulong VertexId { get; set; }
+        public long VertexId { get; set; }
         public double coordX { get; set; }
         public double coordY { get; set; }
 

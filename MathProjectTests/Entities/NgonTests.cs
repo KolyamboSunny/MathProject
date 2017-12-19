@@ -97,5 +97,25 @@ namespace MathProject.Entities.Tests
             e2 = new Edge(new Vertex(0, 0), new Vertex(3, 20));
             Assert.IsFalse(n.edgesIntersect(e1, e2));
         }
+
+        [TestMethod()]
+        public void getEdgeVectorsTest()
+        {
+            double[][] edgevectors = new double[][]{
+                new double[]{0,2},
+                new double[]{4,-2},
+                new double[]{0,2},
+                new double[]{-4,-2}
+            };
+            Ngon ngon = new Ngon(edgevectors);
+            compareArrays(ngon.getEdgeVectors(), edgevectors);
+        }
+        private void compareArrays(double[][] a,double[][] b)
+        {
+            for(int i=0;i<a.Length;i++)
+            {
+                CollectionAssert.AreEquivalent(a[i], b[i]);
+            }
+        }
     }
 }

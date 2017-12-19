@@ -21,18 +21,18 @@ namespace MathProject
             Vertex a = new Vertex(new Random().NextDouble(), new Random().NextDouble());
             Vertex b = new Vertex(new Random().NextDouble(), new Random().NextDouble());
 
-            database.Edges.Add(new Edge(a,b));
+            database.Ngons.Add(generateRandomNgon(5));
             database.SaveChanges();
 
             // Display all Ngons from the database 
-            var query = from edge in database.Edges
-                        orderby edge.EdgeId
+            var query = from edge in database.Ngons
+                        orderby edge.NgonId
                         select edge;
 
             Console.WriteLine("All vertices in the database:");
             foreach (var item in query)
             {
-                Console.WriteLine(item.vertex1.coordX + " " + item.vertex1.coordY);
+                Console.WriteLine(item.Edges.Count + " " + item.Type);
             }
             Console.Read();
         }        
