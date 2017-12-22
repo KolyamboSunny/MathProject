@@ -13,7 +13,7 @@ namespace MathProject.Tools
         string ToHtml();
     }
     public abstract class Matrix
-    {
+    {        
         public double[][] columnVectors;
         public Matrix(Ngon ngon){ }
         public Matrix(double[][] vectors) { }
@@ -21,18 +21,49 @@ namespace MathProject.Tools
 
     public class SignMatrix:IPrintableMatrix
     {
-        public int[][] columnVectors;
+        public long SignMatrixId { get; set; }
+        public string encodedColumnVectors { get; set; }
+        public int[][] columnVectors { get { return decodeArray(encodedColumnVectors); } }
+
+        public virtual List<Ngon> Ngons { get; set; }
         public ReducedSignMatrix Reduced;
-        
+
+        private int[][] decodeArray(string encoded)
+        {
+            string[] oneDimentional = encoded.Split(';');
+            int[][] result = new int[oneDimentional.Length - 1][];
+            for (int i = 0; i < oneDimentional.Length - 1; i++)
+            {
+                result[i] = Array.ConvertAll(oneDimentional[i].Split(':'), Int32.Parse);
+            }
+            return result;
+        }
+        private string encodeArray(int[][] array)
+        {
+            string result = "";
+            foreach (int[] subArray in array)
+            {
+                for (int i = 0; i < subArray.Length - 1; i++)
+                {
+                    result += subArray[i] + ":";
+                }
+                result += subArray[subArray.Length - 1] + ";";
+            }
+            return result;
+        }
+
         public SignMatrix(Matrix D)
         {                        
-            this.columnVectors = new int[D.columnVectors.Count()][];
+            int[][] columnVectors = new int[D.columnVectors.Count()][];
             for (int i = 0; i < D.columnVectors.Count(); i++)
             {
-                this.columnVectors[i] = D.columnVectors[i].Select(n => Math.Sign(n)).ToArray();
+                columnVectors[i] = D.columnVectors[i].Select(n => Math.Sign(n)).ToArray();
             }
-            this.Reduced = new ReducedSignMatrix(this);
+            this.encodedColumnVectors = encodeArray(columnVectors);
+            this.Ngons = new List<Ngon>();
+            this.Reduced = new ReducedSignMatrix(this);            
         }
+        public SignMatrix() { }
 
         public int countPositive()
         { return count(1); }

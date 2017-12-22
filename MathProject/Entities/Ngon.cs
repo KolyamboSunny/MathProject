@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using MathProject.Tools;
 
 namespace MathProject.Entities
 {
@@ -63,6 +64,9 @@ namespace MathProject.Entities
                 return result;
             }
         }
+
+        public virtual SignMatrix PluckerSignMatrix { get; set; }
+        public virtual SignMatrix ProjectionSignMatrix { get; set; }
 
         public Ngon() { }
         public Ngon(double[][] edgeVectors)
@@ -178,10 +182,7 @@ namespace MathProject.Entities
 
             return NgonType.Reflex;
 
-        }
-
-       
-
+        }       
     }
     public enum NgonType { Convex, Reflex, Self_Intersecting, Unknown };
     public class Vertex
