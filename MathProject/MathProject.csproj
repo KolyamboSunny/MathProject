@@ -81,6 +81,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Experiments\SignificantSignsExperiment.cs" />
     <Compile Include="Migrations\201712190005237_InitialCreate.cs" />
     <Compile Include="Migrations\201712190005237_InitialCreate.Designer.cs">
       <DependentUpon>201712190005237_InitialCreate.cs</DependentUpon>

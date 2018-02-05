@@ -1,6 +1,7 @@
 using Accord.Statistics.Distributions.Univariate;
 using MathNet.Numerics.LinearAlgebra;
 using MathProject.Entities;
+using MathProject.Experiments;
 using MathProject.Tools;
 using System;
 using System.Collections.Generic;
@@ -11,53 +12,53 @@ namespace MathProject
 {
     public class Program
     {
-        static Func<long, long> Factorial = x => x == 0 ? 1 : x * Factorial(x - 1);
+        static Func<long, long> Factorial = x => x == 0 ? 1 : x + Factorial(x - 1);
         static void Main(string[] args)
         {
+            SignificantSignsExperiment.findSignificantSigns();
+
+
+            Console.Read();
+        }
+        private static void SameSignInTwoEntries()
+        {
             NgonDatabase database = new NgonDatabase();
-            long length = Factorial(database.PluckerSignMatrices.First().columnVectors.Length);
+            long length = Factorial(database.PluckerSignMatrices.First().columnVectors.Length - 1) - 1;
             long actualLength = 0;
-            int[,] incrementMatrix = new int[length,length];
-            foreach(SignMatrix matrix in database.PluckerSignMatrices)
-            {
-                if(matrix.Ngons.Count(n=>n.Type==NgonType.Convex)>0)
+            int[,] incrementMatrix = new int[length, length];
+            var l = (from r in database.PluckerSignMatrices select r);
+            foreach (SignMatrix matrix in l)
+                if (matrix.Ngons.Count(n => n.Type == NgonType.Convex) != 0)
                 {
                     actualLength++;
                     int l1 = 0;
-                    for (int i=0;i<matrix.columnVectors.Length;i++)
-                    {
-                        for(int j = i; j < matrix.columnVectors.Length;j++)
+                    for (int i = 0; i < matrix.columnVectors.Length; i++)
+                        for (int j = i + 1; j < matrix.columnVectors.Length; j++)
                         {
                             int l2 = 0;
                             for (int m = 0; m < matrix.columnVectors.Length; m++)
-                            {
-                                for (int n = m; n < matrix.columnVectors.Length; n++)
+                                for (int n = m + 1; n < matrix.columnVectors.Length; n++)
                                 {
-                                    Console.Write(i + "-" + j + ":" + m + "-" + n + "   ");
-                                    Console.WriteLine();
-                                 
+                                    //Console.Write(i + "-" + j + ":" + m + "-" + n + "   ");
+                                    //Console.WriteLine();
+
                                     if (matrix.columnVectors[i][j] == matrix.columnVectors[m][n])
                                     {
                                         incrementMatrix[l1, l2]++;
-                                        
+
                                     }
                                     l2++;
                                 }
-                            }
                             l1++;
                         }
-                    }
                 }
-            }
             for (int i = 0; i < length; i++)
             {
                 for (int j = 0; j < length; j++)
-                    Console.Write((double)incrementMatrix[i, j]/actualLength + " ");
+                    Console.Write((double)incrementMatrix[i, j] / actualLength + " ");
                 Console.WriteLine();
             }
-            Console.Read();
-        }    
-        
+        }
         private static void PopulateDatabaseWithNgons()
         {
             Console.WriteLine("How many dimensions are we working with?");

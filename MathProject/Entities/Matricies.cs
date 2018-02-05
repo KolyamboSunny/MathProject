@@ -140,6 +140,20 @@ namespace MathProject.Tools
             }
             return true;
         }
+
+        public bool EqualsWithMask(SignMatrix other,Matrix<double> mask)
+        {
+            int dimensions = this.columnVectors[0].Length;
+            for (int i = 0; i < dimensions; i++)
+            {
+                for (int j = i; j < dimensions; j++)
+                {
+                    if (this.columnVectors[i][j] * mask[i, j] != other.columnVectors[i][j] * mask[i, j])
+                        return false;
+                }
+            }
+            return true;
+        }
         public override int GetHashCode()
         {
             return base.GetHashCode();
