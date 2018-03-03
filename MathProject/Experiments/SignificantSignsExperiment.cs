@@ -44,6 +44,7 @@ namespace MathProject.Experiments
             }
             Console.WriteLine();
         }
+
         private static List<Matrix<double>> checkMasks(List<Matrix<double>> masks)
         {
             List<Matrix<double>> goodMasks = new List<Matrix<double>>();
@@ -57,7 +58,7 @@ namespace MathProject.Experiments
                     if (matrix1Convex)
                     {
                         //var similarMatricies = pluckerMatrices.Keys.Where(m2 => matricesEqual(matrix1, m2, mask.AsColumnArrays()));
-                        if (pluckerMatrices.Keys.Any(m2 => !pluckerMatrices[m2] && matricesEqual(matrix1, m2, mask)))
+                        if (pluckerMatrices.Keys.Any(m2 => !pluckerMatrices[m2] && matrix1.EqualsWithMask(m2, mask)))
                             ambiguity = true;
                     }
                 }
@@ -90,19 +91,6 @@ namespace MathProject.Experiments
         {
             Matrix<double> mask = Matrix<double>.Build.Dense(5, 5, 1);
             return  createMasks(new List<Matrix<double>>() { mask });
-        }
-        private static bool matricesEqual(SignMatrix matrix1, SignMatrix matrix2, Matrix<double> mask)
-        {
-            int dimensions = matrix1.columnVectors[0].Length;
-            for(int i=0;i<dimensions;i++)
-            {
-                for (int j =i; j < dimensions; j++)
-                {
-                    if (matrix1.columnVectors[i][j] * mask[i,j] != matrix2.columnVectors[i][j] * mask[i,j])
-                        return false;
-                }
-            }
-            return true;
         }
 
         private static string printMask(int[][] mask)

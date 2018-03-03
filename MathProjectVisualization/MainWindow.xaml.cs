@@ -69,6 +69,12 @@ namespace MathProjectVisualization
             //Window n = new SignMatrix();
             //n.ShowDialog();
         }
+
+        private void but_maskExperiment_Click(object sender, RoutedEventArgs e)
+        {
+            Window n = new MaskExperiment();
+            n.ShowDialog();
+        }
     }
 
     }

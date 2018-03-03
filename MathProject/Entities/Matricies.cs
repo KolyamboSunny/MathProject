@@ -13,20 +13,28 @@ namespace MathProject.Tools
         string ToHtml();
     }
     public abstract class Matrix
-    {        
+    {       
         public double[][] columnVectors;
-        public Matrix(Ngon ngon){ }
+        public Matrix(Ngon ngon) { }
         public Matrix(double[][] vectors) { }
     }
 
-    public class SignMatrix:IPrintableMatrix
+    public class SignMatrix : IPrintableMatrix
     {
         public long SignMatrixId { get; set; }
+
+        public int dimensions { get; set; }
         public string encodedColumnVectors { get; set; }
         public int[][] columnVectors { get { return decodeArray(encodedColumnVectors); } }
 
         public virtual List<Ngon> Ngons { get; set; }
-        public ReducedSignMatrix Reduced;
+        public ReducedSignMatrix getReduced() {            
+                return (new ReducedSignMatrix(this));           
+        }
+        public ReducedSignMatrix2 getReduced2(Matrix<double> mask)
+        {
+                return (new ReducedSignMatrix2(this,mask));           
+        }
 
         private int[][] decodeArray(string encoded)
         {
@@ -53,15 +61,27 @@ namespace MathProject.Tools
         }
 
         public SignMatrix(Matrix D)
-        {                        
+        {
+            this.dimensions = D.columnVectors.Count();
             int[][] columnVectors = new int[D.columnVectors.Count()][];
             for (int i = 0; i < D.columnVectors.Count(); i++)
             {
                 columnVectors[i] = D.columnVectors[i].Select(n => Math.Sign(n)).ToArray();
             }
             this.encodedColumnVectors = encodeArray(columnVectors);
-            this.Ngons = new List<Ngon>();
-            this.Reduced = new ReducedSignMatrix(this);            
+            this.Ngons = new List<Ngon>();            
+        }
+
+        public SignMatrix(Matrix D, Matrix<double> mask)
+        {
+            this.dimensions = D.columnVectors.Count();
+            int[][] columnVectors = new int[D.columnVectors.Count()][];
+            for (int i = 0; i < D.columnVectors.Count(); i++)
+            {
+                columnVectors[i] = D.columnVectors[i].Select(n => Math.Sign(n)).ToArray();
+            }
+            this.encodedColumnVectors = encodeArray(columnVectors);
+            this.Ngons = new List<Ngon>();          
         }
         public SignMatrix() { }
 
@@ -154,6 +174,22 @@ namespace MathProject.Tools
             }
             return true;
         }
+
+        public bool IncludedInMask(Matrix<double> mask)
+        {
+            int dimensions = this.columnVectors[0].Length;
+            for (int i = 0; i < dimensions; i++)
+            {
+                for (int j = i; j < dimensions; j++)
+                {
+                    int fromMatrix = this.columnVectors[j][i];
+                    double fromMask = mask[i, j];
+                    if ( fromMask!=0 && fromMask!=fromMatrix)
+                        return false;
+                }
+            }
+            return true;
+        }
         public override int GetHashCode()
         {
             return base.GetHashCode();
@@ -186,7 +222,106 @@ namespace MathProject.Tools
         }
         
     }
+    public class ReducedSignMatrix2 : IComparable, IPrintableMatrix
+    {
+        public int[][] data;
+       
+        public ReducedSignMatrix2(SignMatrix matrix,Matrix<double> mask)
+        {
 
+            int length = matrix.columnVectors.Count();
+            this.data = new int[length][];
+            for (int i = 0; i < length; i++)
+            {
+                int[] column = new int[length];
+                for (int j = 0; j < i; j++)
+                {
+                    if (mask[i, j] == 1)
+                        column[j] = Math.Sign(matrix.columnVectors[i][j]);
+                    else
+                        column[j] = 0;                    
+                }
+                this.data[i] = column;
+            }
+        }
+
+        public override string ToString()
+        {
+            string result = "";
+            for (int i = 0; i < data[0].Count(); i++)
+            {
+                result += "| ";
+                for (int j = 0; j < data.Count(); j++)
+                {
+                    if (j < i)
+                    {
+                        result += "  ";
+                        continue;
+                    }
+                    if (data[j][i] == -1) result += "- ";
+                    if (data[j][i] == 1) result += "+ ";
+                    if (data[j][i] == 0) result += "0 ";
+                }
+                result += "|\n";
+            }
+            return result;
+        }
+        public virtual string ToHtml()
+        {
+            string result = "<table style = \"border: 1px solid black; \">\n";
+            for (int i = 0; i < data[0].Count(); i++)
+            {
+                result += "<tr>";
+                for (int j = 0; j < data.Count(); j++)
+                {
+                    result += "<td>";
+                    if (j < i)
+                    {
+                        result += " ";
+                        continue;
+                    }
+                    if (data[j][i] == -1) result += "-";
+                    if (data[j][i] == 1) result += "+";
+                    if (data[j][i] == 0) result += "0";
+                    result += "</td>";
+                }
+                result += "</tr>\n";
+            }
+            result += "</table>";
+            return result;
+        }
+
+
+        public override bool Equals(object obj)
+        {
+            for (int i = 0; i < this.data.Count(); i++)
+            {
+                if (!this.data[i].SequenceEqual(((ReducedSignMatrix2)obj).data[i])) return false;
+            }
+            return true;
+        }
+        public int CompareTo(object obj)
+        {
+            ReducedSignMatrix2 other = (ReducedSignMatrix2)obj;
+            if (this.data.Length > other.data.Length) return 1;
+            if (this.data.Length < other.data.Length) return -1;
+            for (int i = 0; i < this.data.Length; i++)
+            {
+                for (int j = 0; j < this.data.Length; j++)
+                {
+                    if (this.data[i][j] == other.data[i][j]) continue;
+                    if (this.data[i][j] > other.data[i][j]) return -1;
+                    if (this.data[i][j] < other.data[i][j]) return 1;
+                }
+            }
+            return 0;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+    }
     public class ReducedSignMatrix: IComparable, IPrintableMatrix
     {
         public int[] data;
@@ -222,8 +357,9 @@ namespace MathProject.Tools
                 if (data[j] == -1) result += "- ";
                 if (data[j] == 1) result += "+ ";
                 if (data[j] == 0) result += "0 ";                
-                result += "|\n";
+                
             }
+            result += "|";
             return result;
         }
         public string ToHtml()

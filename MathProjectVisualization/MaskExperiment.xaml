@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MathProjectVisualization"
         mc:Ignorable="d"
-        Title="MaskExperiment" Height="300" Width="300">
+        Title="MaskExperiment" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
     <Grid>
-        
+        <local:MaskGenerator x:Name="maskGenerator" HorizontalAlignment="Left" Height="181" VerticalAlignment="Top" Width="186"/>
+        <Button Content="find" Name ="but_find" HorizontalAlignment="Left" Height="30" Margin="35,186,0,0" VerticalAlignment="Top" Width="96" Click="but_find_Click"/>
+        <ListBox Name="fullList" HorizontalAlignment="Left"  Margin="200,20,0,0" VerticalAlignment="Stretch" Width="112" SelectionChanged="fullList_SelectionChanged"/>
+        <ListView x:Name="panel_ngons" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="330,20,10,10" Grid.Column="0" SelectionChanged="panel_ngons_SelectionChanged" />
+
     </Grid>
 </Window>

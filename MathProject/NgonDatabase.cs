@@ -9,9 +9,42 @@ using MathProject.Tools;
 
 namespace MathProject
 {
-    public class NgonDatabase: DbContext
+    public class NgonDatabase : DbContext
     {
-        public DbSet<Ngon> Ngons { get; set; }
-        public DbSet<SignMatrix> PluckerSignMatrices { get; set; }
+        public IQueryable<Ngon> Ngons;
+        public IQueryable<SignMatrix> PluckerSignMatrices;
+       
+        public NgonDatabase(int dimensions=5):base("name=NgonContext")            
+        {
+            Ngons = NgonStorage.Where(n => n.Verticies.Count == dimensions);
+            PluckerSignMatrices = PluckerSignMatricesStorage.Where(n => n.dimensions == dimensions);                       
+        }
+        public void Add(Ngon ngon)
+        {
+            ngon.PluckerSignMatrix.Ngons.Add(ngon);
+            this.NgonStorage.Add(ngon);
+            this.SaveChanges();
+        }
+        public void Add(IEnumerable<Ngon> ngons)
+        {
+            foreach (var ngon in ngons)
+            {
+                ngon.PluckerSignMatrix.Ngons.Add(ngon);
+            }                    
+            this.NgonStorage.AddRange(ngons);
+            this.SaveChanges();
+        }
+        public void Add(SignMatrix pluckerMatrix)
+        {
+            this.PluckerSignMatricesStorage.Add(pluckerMatrix);
+            this.SaveChanges();
+        }
+        public void Add(IEnumerable<SignMatrix> pluckerMatrices)
+        {
+            this.PluckerSignMatricesStorage.AddRange(pluckerMatrices);
+            this.SaveChanges();
+        }
+        public DbSet<Ngon> NgonStorage{get;set;}
+        public DbSet<SignMatrix> PluckerSignMatricesStorage { get; set; }     
     }
 }

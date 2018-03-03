@@ -162,6 +162,31 @@ namespace MathProject.Entities
             else return false;
         }
 
+        public bool isConvexXor()
+        {
+            Matrix<double> mask = Matrix<double>.Build.Dense(5, 5, 1);
+            mask[2, 0] = 0;
+            mask[3, 0] = 0;
+            mask[3, 1] = 0;
+            var reduced1 = this.PluckerSignMatrix.getReduced();
+            var reduced2 = this.PluckerSignMatrix.getReduced2(mask);
+
+            if (Verticies.Count == 5)
+            {
+                int[] predictedSigns = new int[2];
+                predictedSigns[0] = ((reduced1.data[0] == 1) ^ (reduced1.data[4] == 1)) ? 1 : -1;
+                predictedSigns[1] = ((reduced1.data[2] == 1) ^ (reduced1.data[3] == 1)) ? 1 : -1;
+                if (reduced1.countPositive() % 2 == 1)
+                {
+                    predictedSigns[0] = -predictedSigns[0];
+                    predictedSigns[1] = -predictedSigns[1];
+                }
+
+                bool predictionCorrect = predictedSigns[0] == reduced2.data[4][1] && predictedSigns[1] == reduced2.data[4][2];
+                return predictionCorrect;
+            }
+            else throw (new NotImplementedException("Xor convexity checker is only implemented for 5gons. That makes me cry."));
+        }
         public NgonType getType()
         {
             double convexSum = 180 * (Verticies.Count - 2);

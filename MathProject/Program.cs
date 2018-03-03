@@ -15,11 +15,17 @@ namespace MathProject
         static Func<long, long> Factorial = x => x == 0 ? 1 : x + Factorial(x - 1);
         static void Main(string[] args)
         {
-            SignificantSignsExperiment.findSignificantSigns();
-
+            //SignificantSignsExperiment.findSignificantSigns();
+            PopulateDatabaseWithNgons();
+            
+            //MultipleReducedMatricesDistribution p = new MultipleReducedMatricesDistribution();
+            //p.printMetadata();
+            //p.saveToHtml("Reduced2Distribution"+"" + ".html");         
+            
+            Console.WriteLine("DONE");
 
             Console.Read();
-        }
+        }        
         private static void SameSignInTwoEntries()
         {
             NgonDatabase database = new NgonDatabase();
@@ -28,7 +34,7 @@ namespace MathProject
             int[,] incrementMatrix = new int[length, length];
             var l = (from r in database.PluckerSignMatrices select r);
             foreach (SignMatrix matrix in l)
-                if (matrix.Ngons.Count(n => n.Type == NgonType.Convex) != 0)
+                if (matrix.Ngons.Count(n => n.Type == NgonType.Convex) != -1)
                 {
                     actualLength++;
                     int l1 = 0;
@@ -48,10 +54,20 @@ namespace MathProject
 
                                     }
                                     l2++;
+
                                 }
                             l1++;
+                            
                         }
+
+                    
                 }
+            for (int h = 0; h < length; h++)
+            {
+                for (int b = 0; b < length; b++)
+                    Console.Write((double)incrementMatrix[h, b] + " ");
+                Console.WriteLine();
+            }
             for (int i = 0; i < length; i++)
             {
                 for (int j = 0; j < length; j++)
@@ -66,12 +82,12 @@ namespace MathProject
             Console.WriteLine("How big is the sample size?");
             long sampleSize = Int64.Parse(Console.ReadLine());
 
-            for (long i = sampleSize; i > 0; i--)
+            for (long i = sampleSize; i > 0; i-=500)
             {
-                if (i % (sampleSize / 10) == 0) Console.WriteLine(i / (sampleSize / 100) + "%");
-                addNgonToDatabase(n);
-            }
-            Console.WriteLine("DONE");            
+                if (i % (sampleSize / 10) == 0)
+                    Console.WriteLine(i / (sampleSize / 100) + "%");
+                addNgonToDatabase(n, 500);                
+            }          
         }
         private static void EditNgonMatrixLinks()
         {
@@ -186,27 +202,30 @@ namespace MathProject
         }
 
         #region NgonGeneration
-        private static void addNgonToDatabase(int n)
+        private static void addNgonToDatabase(int n,int sampleSize= 1)
         {
-            NgonDatabase database = new NgonDatabase();
+            NgonDatabase database = new NgonDatabase(n);
 
             database.Database.Connection.Open();
-
-            Ngon ngon = Program.generateRandomNgon(n);
-            PluckerMatrix plucker = new PluckerMatrix(ngon);
-            SignMatrix signMatrix = new SignMatrix(plucker);
-
-            SignMatrix existing = database.PluckerSignMatrices.FirstOrDefault(m => m.encodedColumnVectors == signMatrix.encodedColumnVectors);
-            if (existing == null)
+            List<Ngon> ngons = new List<Ngon>();
+            for(int i=0;i<sampleSize;i++)
             {
-                database.PluckerSignMatrices.Add(signMatrix);
-                existing = signMatrix;
+                Ngon ngon = Program.generateRandomNgon(n);
+                PluckerMatrix plucker = new PluckerMatrix(ngon);
+                SignMatrix signMatrix = new SignMatrix(plucker);
+                SignMatrix existing=null;
+                try { existing = database.PluckerSignMatricesStorage.FirstOrDefault(m => m.encodedColumnVectors == signMatrix.encodedColumnVectors); }
+                catch (Exception e) { }
+                if (existing == null)
+                {
+                    database.Add(signMatrix);
+                    existing = signMatrix;
+                }
+                ngon.PluckerSignMatrix = existing;
+                ngons.Add(ngon);
+                                
             }
-            ngon.PluckerSignMatrix = existing;
-            existing.Ngons.Add(ngon);
-
-            database.Ngons.Add(ngon);
-            database.SaveChanges();
+            database.Add(ngons);
         }
         public static Ngon generateRandomNgon(int n)
         {

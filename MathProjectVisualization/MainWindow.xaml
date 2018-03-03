@@ -24,5 +24,6 @@
         <Button x:Name="but_ngonDistribution" Content="Ngon Distribution" HorizontalAlignment="Right" Margin="0,150,10,0" VerticalAlignment="Top" Click="but_ngonDistribution_Click" Width="107" Grid.Column="1"/>
         <Button x:Name="but_ngonPermutations" Content="Ngon Permutations" HorizontalAlignment="Right" Margin="0,175,10,0" VerticalAlignment="Top" Width="107" Grid.Column="1" Click="but_ngonPermutations_Click" IsEnabled="False"/>
         <Button  x:Name="but_signMatricies" Content="Sign Matricies" HorizontalAlignment="Right" Margin="0,200,10,0" VerticalAlignment="Top" Width="107" Grid.Column="1" Click="but_signMatricies_Click"/>
+        <Button  x:Name="but_maskExperiment" Content="Mask Experiment" HorizontalAlignment="Right" Margin="0,225,10,0" VerticalAlignment="Top" Width="107" Grid.Column="1" Click="but_maskExperiment_Click"/>
     </Grid>
 </Window>
