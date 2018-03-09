@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="MathProjectVisualization.MaskGenerator"
+﻿<UserControl x:Class="MathProjectVisualization.MaskGenerator4"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -15,22 +15,15 @@
         <Button Content="" Name="but01" HorizontalAlignment="Left" Height="30" Margin="45,0,0,0" VerticalAlignment="Top" Width="30" Click="but_Click"/>
         <Button Content="" Name="but02" HorizontalAlignment="Left" Height="30" Margin="80,0,0,0" VerticalAlignment="Top" Width="30" Click="but_Click"/>
         <Button Content="" Name="but03" HorizontalAlignment="Left" Height="30" Margin="115,0,0,0" VerticalAlignment="Top" Width="30" Click="but_Click"/>
-        <Button Content="" Name="but04" HorizontalAlignment="Left" Height="30" Margin="150,0,0,0" VerticalAlignment="Top" Width="30" Click="but_Click"/>
 
         <Button Content="" Name="but11" HorizontalAlignment="Left" Height="30" Margin="45,35,0,0" VerticalAlignment="Top" Width="30" IsEnabled="False" BorderBrush="#FF424242" Opacity="0.5"/>
         <Button Content="" Name="but12" HorizontalAlignment="Left" Height="30" Margin="80,35,0,0" VerticalAlignment="Top" Width="30" Click="but_Click"/>
         <Button Content="" Name="but13" HorizontalAlignment="Left" Height="30" Margin="115,35,0,0" VerticalAlignment="Top" Width="30" Click="but_Click"/>
-        <Button Content="" Name="but14" HorizontalAlignment="Left" Height="30" Margin="150,35,0,0" VerticalAlignment="Top" Width="30" Click="but_Click"/>
 
         <Button Content="" HorizontalAlignment="Left" Height="30" Margin="80,70,0,0" VerticalAlignment="Top" Width="30" IsEnabled="False" BorderBrush="#FF424242" Opacity="0.5"/>
         <Button Content="" Name="but23" HorizontalAlignment="Left" Height="30" Margin="115,70,0,0" VerticalAlignment="Top" Width="30" Click="but_Click"/>
-        <Button Content="" Name="but24" HorizontalAlignment="Left" Height="30" Margin="150,70,0,0" VerticalAlignment="Top" Width="30" Click="but_Click"/>
 
-            <Button Content="" HorizontalAlignment="Left" Height="30" Margin="115,105,0,0" VerticalAlignment="Top" Width="30" IsEnabled="False" BorderBrush="#FF424242" Opacity="0.5"/>
-
-        <Button Content="" Name="but34" HorizontalAlignment="Left" Height="30" Margin="150,105,0,0" VerticalAlignment="Top" Width="30" Click="but_Click"/>
-
-            <Button Content="" HorizontalAlignment="Left" Height="30" Margin="150,140,0,0" VerticalAlignment="Top" Width="30" IsEnabled="False" BorderBrush="#FF424242" Opacity="0.5"/>
+        <Button Content="" HorizontalAlignment="Left" Height="30" Margin="115,105,0,0" VerticalAlignment="Top" Width="30" IsEnabled="False" BorderBrush="#FF424242" Opacity="0.5"/>
 
 
 

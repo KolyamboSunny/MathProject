@@ -772,30 +772,38 @@ namespace MathProject.Tools
     }
     public class MultipleReducedMatricesDistribution
     {
-        NgonDatabase db = new NgonDatabase(5);
+        NgonDatabase db;
         
         public Dictionary<ReducedSignMatrix, List<ReducedSignMatrix2>> similarReducedMatrix = new Dictionary<ReducedSignMatrix, List<ReducedSignMatrix2>>();
         public Dictionary<ReducedSignMatrix2, List<SignMatrix>> similarReduced2Matrix = new Dictionary<ReducedSignMatrix2, List<SignMatrix>>();
-
-        public MultipleReducedMatricesDistribution()
+       
+        public MultipleReducedMatricesDistribution(int dimensions=5)
         {
-            Matrix<double> mask = Matrix<double>.Build.Dense(5, 5, 1);
-            mask[3, 0] = 0;
-            mask[3,1] = 0;
-            mask[4, 1] = 0;
-         
+            db = new NgonDatabase(dimensions);
+            Matrix<double> mask = Matrix<double>.Build.Dense(dimensions, dimensions, 1);
+            if (dimensions == 5)
+            {
+                mask[3, 0] = 0;
+                mask[3, 1] = 0;
+                mask[4, 1] = 0;
+            }
+            if (dimensions == 4)
+            {
+                mask[2, 0] = 0;                
+                mask[3, 2] = 0;
+            }
 
             foreach (SignMatrix matrix in db.PluckerSignMatrices)
             {
                 var reduced1 = matrix.getReduced();
-                var reduced2 = matrix.getReduced2(mask);                
+                var reduced2 = matrix.getReduced2(mask);
 
                 ReducedSignMatrix reduced1Key = similarReducedMatrix.Keys.FirstOrDefault(m => m.Equals(reduced1));
                 if (reduced1Key == null)
                 {
                     similarReducedMatrix.Add(reduced1, new List<ReducedSignMatrix2>());
                     reduced1Key = reduced1;
-                }                
+                }
 
                 ReducedSignMatrix2 reduced2Key = similarReduced2Matrix.Keys.FirstOrDefault(m => m.Equals(reduced2));
                 if (reduced2Key == null)
@@ -807,10 +815,28 @@ namespace MathProject.Tools
 
                 similarReduced2Matrix[reduced2Key].Add(matrix);
             }
-                        
+
         }
 
-        public void printMetadata()
+
+        public void runExperiment4gons()
+        {
+            foreach (var reduced1 in similarReducedMatrix.Keys)
+            {
+                IOrderedEnumerable<ReducedSignMatrix2> sortedReduced2 = similarReducedMatrix[reduced1].OrderBy(m => similarReduced2Matrix[m].Count());
+                foreach (var reduced2 in sortedReduced2)
+                {
+                    foreach (var full in similarReduced2Matrix[reduced2])
+                    {
+                        Console.WriteLine(reduced1.ToString() + " >>>> "
+                                          + full.columnVectors[2][0] + full.columnVectors[3][2] + " >>>> " +
+                                           "   convex: "+(full.Ngons.Count(n=>n.Type==NgonType.Convex)>0));
+                    }
+                }
+                Console.WriteLine();
+            }
+        }
+        private void runExperiment5gons()
         {
             Dictionary<int, int> reduced2variance = new Dictionary<int, int>();
             Console.WriteLine("Each reduced1 has 4 reduced2: " +similarReducedMatrix.All(m => m.Value.Count == 4));

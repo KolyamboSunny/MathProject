@@ -9,12 +9,17 @@ using System.Threading.Tasks;
 
 namespace MathProject.Experiments
 {
-    public static class SignificantSignsExperiment
+    public class SignificantSignsExperiment
     {
-        static NgonDatabase database = new NgonDatabase();
+        NgonDatabase database = new NgonDatabase();
         static Dictionary<SignMatrix, bool> pluckerMatrices = new Dictionary<SignMatrix, bool>();
 
-        public static void findSignificantSigns()
+        public SignificantSignsExperiment(int dimensions)
+        {
+            this.database = new NgonDatabase(dimensions);
+        }
+
+        public void findSignificantSigns()
         {
             foreach (SignMatrix matrix in database.PluckerSignMatrices)
             {
@@ -35,7 +40,7 @@ namespace MathProject.Experiments
             foreach (var mask in result)
                 Console.WriteLine(mask);
         } 
-        private static void count(List<Matrix<double>> result)
+        private void count(List<Matrix<double>> result)
         {            
             for (int i = 1; i < 6; i++)
             {
@@ -45,7 +50,7 @@ namespace MathProject.Experiments
             Console.WriteLine();
         }
 
-        private static List<Matrix<double>> checkMasks(List<Matrix<double>> masks)
+        private List<Matrix<double>> checkMasks(List<Matrix<double>> masks)
         {
             List<Matrix<double>> goodMasks = new List<Matrix<double>>();
             foreach (var mask in masks)
@@ -70,7 +75,7 @@ namespace MathProject.Experiments
             return goodMasks;
         }
 
-        private static List<Matrix<double>> createMasks(List<Matrix<double>> masks)
+        private List<Matrix<double>> createMasks(List<Matrix<double>> masks)
         {
             List<Matrix<double>> newMasks = new List<Matrix<double>>();
             int dimensions = pluckerMatrices.Keys.First().columnVectors[0].Length;
@@ -87,13 +92,14 @@ namespace MathProject.Experiments
                 }
             return newMasks;
         }
-        private static List<Matrix<double>> createMasks()
+        private List<Matrix<double>> createMasks()
         {
-            Matrix<double> mask = Matrix<double>.Build.Dense(5, 5, 1);
+            int dimensions = pluckerMatrices.Keys.First().columnVectors[0].Length;
+            Matrix<double> mask = Matrix<double>.Build.Dense(dimensions, dimensions, 1);
             return  createMasks(new List<Matrix<double>>() { mask });
         }
 
-        private static string printMask(int[][] mask)
+        private string printMask(int[][] mask)
         {
             string result = "";
             for (int i = 0; i < mask[0].Count(); i++)

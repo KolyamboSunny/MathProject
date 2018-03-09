@@ -18,12 +18,12 @@ using System.Windows.Shapes;
 namespace MathProjectVisualization
 {
     /// <summary>
-    /// Interaction logic for MaskGenerator.xaml
+    /// Interaction logic for MaskGenerator5.xaml
     /// </summary>
-    public partial class MaskGenerator : UserControl
+    public partial class MaskGenerator4 : UserControl
     {
         public Matrix<double> Mask = Matrix<double>.Build.Dense(5, 5, 0);
-        public MaskGenerator()
+        public MaskGenerator4()
         {
             InitializeComponent();
         }
