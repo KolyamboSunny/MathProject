@@ -78,13 +78,13 @@ namespace MathProjectVisualization.VisualEntities.VisualSignMatrices
         }
         private void colorSigns4()
         {
-            //int[][] reduced1 = { new int[] { 1, 0 }, new int[] { 2, 1 }, new int[] { 3, 2 }, new int[] { 4, 3 }, new int[] { 4, 0 } };
+            int[][] reduced1 = { new int[] { 1, 0 }, new int[] { 2, 1 }, new int[] { 3, 2 }, new int[] { 3, 0 } };
             //int[][] reduced2 = { new int[] { 2, 0 }, new int[] { 4, 2 } };
             int[][] full = { new int[] { 2, 0 }, new int[] { 3, 1 } };
 
-        /*    foreach (int[] pair in reduced1)
+            foreach (int[] pair in reduced1)
                 labels[pair[0], pair[1]].Background = Brushes.Blue;
-                */
+                
 
             /*foreach (int[] pair in reduced2)
                 labels[pair[0], pair[1]].Background = Brushes.Red;
