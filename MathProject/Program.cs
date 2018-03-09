@@ -17,10 +17,10 @@ namespace MathProject
         {
             //SignificantSignsExperiment e = new SignificantSignsExperiment(4);
             //e.findSignificantSigns();
-            //PopulateDatabaseWithNgons();
+            PopulateDatabaseWithNgons();
             
-            MultipleReducedMatricesDistribution p = new MultipleReducedMatricesDistribution(4);
-            p.runExperiment4gons();
+            //MaskExperiment4 p = new MaskExperiment4();
+            //p.runExperiment();
             //p.saveToHtml("Reduced2Distribution"+"" + ".html");         
             
             Console.WriteLine("DONE");
