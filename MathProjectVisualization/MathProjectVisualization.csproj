@@ -105,6 +105,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="MainMenu.xaml.cs">
+      <DependentUpon>MainMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MaskExperiment4.xaml.cs">
       <DependentUpon>MaskExperiment4.xaml</DependentUpon>
     </Compile>
@@ -127,6 +130,10 @@
     <Compile Include="VisualEntities\VisualSignMatrices\VisualSignMatrix.xaml.cs">
       <DependentUpon>VisualSignMatrix.xaml</DependentUpon>
     </Compile>
+    <Page Include="MainMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
