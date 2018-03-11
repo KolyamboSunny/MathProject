@@ -72,7 +72,7 @@ namespace MathProjectVisualization
 
         private void but_maskExperiment_Click(object sender, RoutedEventArgs e)
         {
-            Window n = new MaskExperiment();
+            Window n = new MaskExperiment(5);
             n.ShowDialog();
         }
     }

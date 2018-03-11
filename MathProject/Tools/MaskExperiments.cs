@@ -37,6 +37,20 @@ namespace MathProject.Tools
             }
         }
 
+        public int[] predictFull(ReducedSignMatrix reduced1)
+        {
+            int[] result = new int[3];
+            result[0] = ((reduced1.data[3] == 1) ^ (reduced1.data[4] == 1)) ? 1 : -1;
+            result[1] = ((reduced1.data[1] == 1) ^ (reduced1.data[2] == 1)) ? 1 : -1;           
+
+            if (reduced1.countPositive() % 2 == 1)
+            {
+                result[0] = -result[0];
+                result[1] = -result[1];
+            }
+            return result;
+        }
+
 
         public void runExperiment()
         {

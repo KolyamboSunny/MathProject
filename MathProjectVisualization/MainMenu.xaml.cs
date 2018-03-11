@@ -26,13 +26,13 @@ namespace MathProjectVisualization
 
         private void but_5gons_Click(object sender, RoutedEventArgs e)
         {
-            Window n = new MaskExperiment();
+            Window n = new MaskExperiment(5);
             n.ShowDialog();
         }
 
         private void but_4gons_Click(object sender, RoutedEventArgs e)
         {
-            Window n = new MaskExperiment4();
+            Window n = new MaskExperiment(4);
             n.ShowDialog();
         }
     }

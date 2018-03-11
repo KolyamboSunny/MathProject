@@ -108,17 +108,8 @@
     <Compile Include="MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MaskExperiment4.xaml.cs">
-      <DependentUpon>MaskExperiment4.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MaskExperiment.xaml.cs">
       <DependentUpon>MaskExperiment.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="VisualEntities\MaskGenerators\MaskGenerator4.xaml.cs">
-      <DependentUpon>MaskGenerator4.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="VisualEntities\MaskGenerators\MaskGenerator5.xaml.cs">
-      <DependentUpon>MaskGenerator5.xaml</DependentUpon>
     </Compile>
     <Compile Include="NgonEdgePermutation.xaml.cs">
       <DependentUpon>NgonEdgePermutation.xaml</DependentUpon>
@@ -126,8 +117,11 @@
     <Compile Include="NgonDistribution.xaml.cs">
       <DependentUpon>NgonDistribution.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VisualEntities\MaskGenerator.xaml.cs">
+      <DependentUpon>MaskGenerator.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VisualEntities\VisualNgon.cs" />
-    <Compile Include="VisualEntities\VisualSignMatrices\VisualSignMatrix.xaml.cs">
+    <Compile Include="VisualEntities\VisualSignMatrix.xaml.cs">
       <DependentUpon>VisualSignMatrix.xaml</DependentUpon>
     </Compile>
     <Page Include="MainMenu.xaml">
@@ -146,19 +140,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MaskExperiment4.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="MaskExperiment.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="VisualEntities\MaskGenerators\MaskGenerator4.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="VisualEntities\MaskGenerators\MaskGenerator5.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -170,7 +152,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="VisualEntities\VisualSignMatrices\VisualSignMatrix.xaml">
+    <Page Include="VisualEntities\MaskGenerator.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="VisualEntities\VisualSignMatrix.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

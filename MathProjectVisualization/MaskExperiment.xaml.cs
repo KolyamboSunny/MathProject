@@ -26,11 +26,14 @@ namespace MathProjectVisualization
     public partial class MaskExperiment : Window
     {
         private SignMatrix SelectedMatrix;
-        NgonDatabase db = new NgonDatabase(5);
-
-        public MaskExperiment()
+        NgonDatabase db;
+        MaskGenerator maskGenerator;
+        public MaskExperiment(int dimensions)
         {
+            db = new NgonDatabase(dimensions);
             InitializeComponent();
+            this.maskGenerator = new MaskGenerator(dimensions);
+            this.maskGeneratorPanel.Children.Add(this.maskGenerator);
         }
 
         private void but_find_Click(object sender, RoutedEventArgs e)
