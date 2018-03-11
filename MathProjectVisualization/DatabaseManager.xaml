@@ -1,0 +1,20 @@
+﻿<Window x:Class="MathProjectVisualization.DatabaseManager"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MathProjectVisualization.VisualEntities"
+        mc:Ignorable="d"
+        Title="DatabaseManager" Height="400" Width="600">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Name="section0" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Grid Name="section1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Grid Name="section2" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+    </Grid>
+</Window>
