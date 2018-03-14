@@ -15,12 +15,14 @@ namespace MathProject
         static Func<long, long> Factorial = x => x == 0 ? 1 : x + Factorial(x - 1);
         static void Main(string[] args)
         {
-            //SignificantSignsExperiment e = new SignificantSignsExperiment(4);
-            //e.findSignificantSigns();
+            Console.WriteLine("How many dimensions are we working with?");
+            int n = Int32.Parse(Console.ReadLine());
+            SignificantSignsExperiment e = new SignificantSignsExperiment(n);
+            e.findSignificantSigns();
             //PopulateDatabaseWithNgons();
             
-            MaskExperiment4 p = new MaskExperiment4();
-            p.runExperiment();
+            //MaskExperiment4 p = new MaskExperiment4();
+            //p.runExperiment();
             //p.saveToHtml("Reduced2Distribution"+"" + ".html");         
             
             Console.WriteLine("DONE");
