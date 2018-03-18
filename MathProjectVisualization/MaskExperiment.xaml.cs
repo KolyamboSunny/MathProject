@@ -50,25 +50,32 @@ namespace MathProjectVisualization
 
         private void fullList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            this.SelectedMatrix = ((VisualSignMatrix)fullList.SelectedItem).signmatrix;
-            List<VisualNgon> ngons = new List<VisualNgon>();
-            List<Canvas> ngonsvizs = new List<Canvas>();
-            if (SelectedMatrix != null)
+            try
             {
-                
-                foreach (var rawngon in SelectedMatrix.Ngons)
+                this.SelectedMatrix = ((VisualSignMatrix)fullList.SelectedItem).signmatrix;
+                List<VisualNgon> ngons = new List<VisualNgon>();
+                List<Canvas> ngonsvizs = new List<Canvas>();
+                if (SelectedMatrix != null)
                 {
-                    VisualNgon ngon = new VisualNgon(rawngon);
 
-                    ngons.Add(ngon);
-                    double width = 300, height = 200;
-                    Canvas box = new Canvas() { Height = height, Width = width };
-                    ngon.draw(box, width, height);
-                    ngonsvizs.Add(box);
+                    foreach (var rawngon in SelectedMatrix.Ngons)
+                    {
+                        VisualNgon ngon = new VisualNgon(rawngon);
 
+                        ngons.Add(ngon);
+                        double width = 300, height = 200;
+                        Canvas box = new Canvas() { Height = height, Width = width };
+                        ngon.draw(box, width, height);
+                        ngonsvizs.Add(box);
+
+                    }
                 }
+                panel_ngons.ItemsSource = ngonsvizs;
             }
-            panel_ngons.ItemsSource= ngonsvizs;
+            catch(Exception ex)
+            {
+
+            }
         }     
 
         private void panel_ngons_SelectionChanged(object sender, SelectionChangedEventArgs e)

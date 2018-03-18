@@ -91,17 +91,16 @@ namespace MathProject.Tools
         {
             db = new NgonDatabase(dimensions);
             Matrix<double> mask = Matrix<double>.Build.Dense(dimensions, dimensions, 1);
-            if (dimensions == 5)
-            {
-                mask[3, 0] = 0;
-                mask[3, 1] = 0;
-                mask[4, 1] = 0;
-            }
-            if (dimensions == 4)
+            if (dimensions == 6)
             {
                 mask[2, 0] = 0;
-                mask[3, 2] = 0;
-            }
+                mask[3, 1] = 0;
+                mask[4, 2] = 0;
+                mask[5, 3] = 0;
+
+                mask[4, 0] = 0;
+                mask[5, 1] = 0;
+            }            
 
             foreach (SignMatrix matrix in db.PluckerSignMatrices)
             {
@@ -128,7 +127,18 @@ namespace MathProject.Tools
 
         }
 
-
+        private string stringSign(int sign)
+        {
+            switch (sign)
+            {
+                case 1:
+                    return "+";
+                case -1:
+                    return "-";
+                default:
+                    return sign.ToString();
+            }
+        }
         public void runExperiment4gons()
         {
             foreach (var reduced1 in similarReducedMatrix.Keys)
@@ -142,6 +152,28 @@ namespace MathProject.Tools
                                           + full.columnVectors[2][0] + full.columnVectors[3][2] + " >>>> " +
                                            "   convex: " + (full.Ngons.Count(n => n.Type == NgonType.Convex) > 0));
                     }
+                }
+                Console.WriteLine();
+            }
+        }
+        public void runExperiment6gons()
+        {
+            foreach (var reduced1 in similarReducedMatrix.Keys)
+            {
+                IOrderedEnumerable<ReducedSignMatrix2> sortedReduced2 = similarReducedMatrix[reduced1].OrderBy(m => similarReduced2Matrix[m].Count());
+                foreach (var reduced2 in sortedReduced2)//.Where(n => similarReduced2Matrix[n].Count == 3))
+                {
+                    List<Ngon> Ngons = new List<Ngon>();
+                    
+                    foreach (var full in similarReduced2Matrix[reduced2])
+                    {
+                        Ngons.AddRange(full.Ngons);
+                    }
+                    Console.WriteLine(reduced1.ToString() + " >>>> "
+                                          + stringSign(reduced2.data[3][0]) + stringSign(reduced2.data[4][1]) + stringSign(reduced2.data[5][2]) + " >>>> " +
+                                           //+full.columnVectors[3][0] + full.columnVectors[3][1] + full.columnVectors[4][1] +
+                                           "  : " + similarReduced2Matrix[reduced2].Count() +
+                                           "  convex: " + (Ngons.Count(n => n.Type == NgonType.Convex) > 0));
                 }
                 Console.WriteLine();
             }

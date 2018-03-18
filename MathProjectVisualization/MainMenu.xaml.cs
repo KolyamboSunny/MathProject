@@ -35,5 +35,11 @@ namespace MathProjectVisualization
             Window n = new MaskExperiment(4);
             n.ShowDialog();
         }
+
+        private void but_6gons_Click(object sender, RoutedEventArgs e)
+        {
+            Window n = new MaskExperiment(6);
+            n.ShowDialog();
+        }
     }
 }

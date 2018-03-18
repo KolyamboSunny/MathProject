@@ -17,12 +17,12 @@ namespace MathProject
         {
             Console.WriteLine("How many dimensions are we working with?");
             int n = Int32.Parse(Console.ReadLine());
-            SignificantSignsExperiment e = new SignificantSignsExperiment(n);
-            e.findSignificantSigns();
+            //SignificantSignsExperiment e = new SignificantSignsExperiment(n);
+            //e.findSignificantSigns();
             //PopulateDatabaseWithNgons();
             
-            //MaskExperiment4 p = new MaskExperiment4();
-            //p.runExperiment();
+            MaskExperiment6 p = new MaskExperiment6();
+            p.runExperiment6gons();
             //p.saveToHtml("Reduced2Distribution"+"" + ".html");         
             
             Console.WriteLine("DONE");

@@ -89,7 +89,7 @@
     <Compile Include="Experiments\SignificantSignsExperiment.cs" />
     <Compile Include="NgonDatabase.cs" />
     <Compile Include="Entities\Ngon.cs" />
-    <Compile Include="Tools\MaskExperiments.cs" />
+    <Compile Include="Experiments\MaskExperiments.cs" />
     <Compile Include="Tools\NgonEdgePermutations.cs" />
     <Compile Include="Entities\Triangle.cs" />
     <Compile Include="Entities\Matricies.cs" />
