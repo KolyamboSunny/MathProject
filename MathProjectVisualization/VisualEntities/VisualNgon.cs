@@ -63,10 +63,10 @@ namespace MathProjectVisualization.VisualEntities
                     edge.X2 = verticies[i + 1].X;
                     edge.Y2 = verticies[i + 1].Y;
                 }
-                double angle = Math.Round(ngonModel.relatedAngles[ngonModel.Verticies[i]]);
+                //double angle = Math.Round(ngonModel.relatedAngles[ngonModel.Verticies[i]]);
                 Label vertexInfo = new Label()
                 {
-                    Content = (vertexLetter + " " + angle),
+                    Content = (vertexLetter + " " ),
                     Margin = new Thickness(verticies[i].X, verticies[i].Y, 0, 0)
                 };
                 vertexLetter++;

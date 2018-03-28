@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MathProject.Tools;
 
 namespace MathProject.Entities.Tests
 {
@@ -96,6 +97,44 @@ namespace MathProject.Entities.Tests
             e1 = new Edge(new Vertex(10, 0), new Vertex(8, 1));
             e2 = new Edge(new Vertex(0, 0), new Vertex(3, 20));
             Assert.IsFalse(n.edgesIntersect(e1, e2));
+        }
+
+        [TestMethod()]
+        public void getEdgeVectorsTest()
+        {
+            double[][] edgevectors = new double[][]{
+                new double[]{0,2},
+                new double[]{4,-2},
+                new double[]{0,2},
+                new double[]{-4,-2}
+            };
+            Ngon ngon = new Ngon(edgevectors);
+            compareArrays(ngon.getEdgeVectors(), edgevectors);
+        }
+        private void compareArrays(double[][] a, double[][] b)
+        {
+            for (int i = 0; i < a.Length; i++)
+            {
+                CollectionAssert.AreEquivalent(a[i], b[i]);
+            }
+        }
+
+        [TestMethod()]
+        public void isConvexXorTest()
+        {
+            long sampleSize = 1000000;
+            for (int i = 0; i < sampleSize; i++)
+            {
+                var ngon = Program.generateRandomNgon(5);
+                PluckerMatrix plucker = new PluckerMatrix(ngon);
+                SignMatrix signMatrix = new SignMatrix(plucker);
+                ngon.PluckerSignMatrix = signMatrix;
+                bool xorOutput = ngon.isConvexXor();
+                bool result = ngon.Type == NgonType.Convex;
+                if (result != xorOutput)
+                    ngon = null;
+                Assert.AreEqual(xorOutput, result);
+            }
         }
     }
 }

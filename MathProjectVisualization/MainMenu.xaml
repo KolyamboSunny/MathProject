@@ -1,0 +1,15 @@
+﻿<Window x:Class="MathProjectVisualization.MainMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MathProjectVisualization"
+        mc:Ignorable="d"
+        Title="MainMenu" Height="300" Width="300">
+    <Grid>
+        <Button Name ="but_5gons" Content="5gons" HorizontalAlignment="Left" Height="30" Margin="41,91,0,0" VerticalAlignment="Top" Width="200" Click="but_5gons_Click"/>
+        <Button x:Name ="but_4gons" Content="4gons" HorizontalAlignment="Left" Height="30" Margin="41,45,0,0" VerticalAlignment="Top" Width="200" Click="but_4gons_Click"/>
+        <Button x:Name ="but_6gons" Content="6gons" HorizontalAlignment="Left" Height="30" Margin="41,138,0,0" VerticalAlignment="Top" Width="200" Click="but_6gons_Click"/>
+        <Button x:Name ="but_dbManager" Content="Database Manager" HorizontalAlignment="Left" Height="30" Margin="41,182,0,0" VerticalAlignment="Top" Width="200" Click="but_dbManager_Click" RenderTransformOrigin="0.497,1.634"/>
+    </Grid>
+</Window>

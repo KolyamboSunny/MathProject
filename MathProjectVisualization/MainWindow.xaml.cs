@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MathProjectVisualization.VisualEntities;
+using MathProject.Tools;
 
 namespace MathProjectVisualization
 {
@@ -45,6 +46,7 @@ namespace MathProjectVisualization
             currentNgon = Program.generateRandomNgon(dimensions);
             but_ngonPermutations.IsEnabled = true;
             VisualNgon n = new VisualNgon(currentNgon);
+            lab_PluckerMatrix.Content = (new SignMatrix(new PluckerMatrix(currentNgon))).ToString();
             n.draw(frame);
             displayAngleSum(currentNgon);
             displayType(currentNgon);
@@ -59,6 +61,18 @@ namespace MathProjectVisualization
         private void but_ngonPermutations_Click(object sender, RoutedEventArgs e)
         {
             Window n = new NgonEdgePermutation(currentNgon);
+            n.ShowDialog();
+        }
+
+        private void but_signMatricies_Click(object sender, RoutedEventArgs e)
+        {
+            //Window n = new SignMatrix();
+            //n.ShowDialog();
+        }
+
+        private void but_maskExperiment_Click(object sender, RoutedEventArgs e)
+        {
+            Window n = new MaskExperiment(5);
             n.ShowDialog();
         }
     }
