@@ -63,20 +63,12 @@ namespace MathProjectVisualization
             {
                 this.SelectedMatrix = ((VisualSignMatrix)fullList.SelectedItem).signmatrix;
                 List<VisualNgon> ngons = new List<VisualNgon>();
-                List<Canvas> ngonsvizs = new List<Canvas>();
+                List<VisualNgonListItem> ngonsvizs = new List<VisualNgonListItem>();
                 if (SelectedMatrix != null)
                 {
-
                     foreach (var rawngon in SelectedMatrix.Ngons)
                     {
-                        VisualNgon ngon = new VisualNgon(rawngon);
-
-                        ngons.Add(ngon);
-                        double width = 300, height = 200;
-                        Canvas box = new Canvas() { Height = height, Width = width };
-                        ngon.draw(box, width, height);
-                        ngonsvizs.Add(box);
-
+                        ngonsvizs.Add(new VisualNgonListItem(rawngon));
                     }
                 }
                 panel_ngons.ItemsSource = ngonsvizs;

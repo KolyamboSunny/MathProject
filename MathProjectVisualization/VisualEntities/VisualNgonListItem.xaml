@@ -1,0 +1,17 @@
+﻿<UserControl x:Class="MathProjectVisualization.VisualEntities.VisualNgonListItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MathProjectVisualization.VisualEntities"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="600">
+    <Grid Height="200" Width="600">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="300"/>
+        </Grid.ColumnDefinitions>
+        <Canvas Name="can_shape" Height="200" Width="300" Grid.Column="0"/>
+        <Canvas Name="can_vectors" Height="200" Width="300" Grid.Column="1"/>
+    </Grid>
+</UserControl>

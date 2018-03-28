@@ -101,7 +101,7 @@ namespace MathProjectVisualization.VisualEntities
             
             for (int i = 0; i < rawVectors.Count; i++)
             {
-                var vector = convertToContainerCoords(container, rawVectors[i]);
+                var vector = convertToContainerCoords(width,height, rawVectors[i]);
                 vector.StrokeThickness = 2;
                 vector.Stroke = Brushes.Black;
                 Label vertexInfo = new Label()

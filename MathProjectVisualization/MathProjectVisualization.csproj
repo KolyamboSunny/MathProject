@@ -127,6 +127,9 @@
       <DependentUpon>MaskGenerator.xaml</DependentUpon>
     </Compile>
     <Compile Include="VisualEntities\VisualNgon.cs" />
+    <Compile Include="VisualEntities\VisualNgonListItem.xaml.cs">
+      <DependentUpon>VisualNgonListItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VisualEntities\VisualSignMatrix.xaml.cs">
       <DependentUpon>VisualSignMatrix.xaml</DependentUpon>
     </Compile>
@@ -169,6 +172,10 @@
     <Page Include="VisualEntities\MaskGenerator.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="VisualEntities\VisualNgonListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="VisualEntities\VisualSignMatrix.xaml">
       <SubType>Designer</SubType>
