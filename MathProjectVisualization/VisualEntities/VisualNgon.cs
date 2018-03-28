@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-
+using MathNet.Numerics.LinearAlgebra;
 namespace MathProjectVisualization.VisualEntities
 {
     public class VisualNgon
@@ -28,19 +28,9 @@ namespace MathProjectVisualization.VisualEntities
                 Point point = new Point(vertex.coordX, vertex.coordY);
                 rawVerticies.Add(point);
             }
+            this.rawVectors=rotateVectors();
             var vectors = ngonModel.getOrthonormal();
-            for (int i = 0; i < vectors[0].Length; i++)
-            {
-                Line visualVector = new Line()
-                {
-                    Y1 = 0,
-                    X1 = 0,
-
-                    Y2 = vectors[0][i],
-                    X2 = vectors[1][i]
-                };
-                rawVectors.Add(visualVector);
-            }
+            
         }
 
         public void draw(Panel container)
@@ -112,7 +102,7 @@ namespace MathProjectVisualization.VisualEntities
             for (int i = 0; i < rawVectors.Count; i++)
             {
                 var vector = convertToContainerCoords(container, rawVectors[i]);
-                vector.StrokeThickness = 3;
+                vector.StrokeThickness = 2;
                 vector.Stroke = Brushes.Black;
                 Label vertexInfo = new Label()
                 {
@@ -148,6 +138,39 @@ namespace MathProjectVisualization.VisualEntities
         private Point convertToContainerCoords(FrameworkElement container, Point p)
         {
             return convertToContainerCoords(container.ActualWidth, container.ActualHeight, p);
+        }
+
+        private List<Line> rotateVectors()
+        {
+            double[][] columnVectors = ngonModel.getOrthonormal();
+            Matrix<double> vectors = Matrix<double>.Build.DenseOfColumnArrays(columnVectors);
+            Console.WriteLine(vectors);
+            double theta = Math.Atan2(vectors[0,0], vectors[0,1]);
+
+            double[,] toMultiply = new double[2, 2];
+            toMultiply[0, 0] = Math.Cos(theta);
+            toMultiply[0, 1] = Math.Sin(theta);
+            toMultiply[1, 0] = -Math.Sin(theta);
+            toMultiply[1, 1] = Math.Cos(theta);
+
+            Matrix<double> toMultiplyMatrix = Matrix<double>.Build.DenseOfArray(toMultiply);
+            Matrix<double> rotatedVectors = vectors * toMultiplyMatrix;
+            List<Line> rawVectors = new List<Line>();            
+            Console.WriteLine(rotatedVectors);
+            foreach (var vertex in rotatedVectors.ToRowArrays())
+            {
+                Line visualVector = new Line()
+                {
+                    Y1 = 0,
+                    X1 = 0,
+
+                    Y2 = vertex[0],
+                    X2 = vertex[1]
+                };
+                rawVectors.Add(visualVector);
+            }
+            return rawVectors;
+
         }
 
         private Line convertToContainerCoords(double width, double height, Line rawVector)
