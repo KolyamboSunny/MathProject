@@ -39,7 +39,8 @@ namespace MathProjectVisualization
         }
         private void but_randomNgon_Click(object sender, RoutedEventArgs e)
         {
-            frame.Children.Clear();
+            frame_shape.Children.Clear();
+            frame_vectors.Children.Clear();
 
             int dimensions = Int32.Parse(text_dimensions.Text);
 
@@ -47,7 +48,8 @@ namespace MathProjectVisualization
             but_ngonPermutations.IsEnabled = true;
             VisualNgon n = new VisualNgon(currentNgon);
             lab_PluckerMatrix.Content = (new SignMatrix(new PluckerMatrix(currentNgon))).ToString();
-            n.draw(frame);
+            n.draw(frame_shape);
+            n.drawVectors(frame_vectors);
             displayAngleSum(currentNgon);
             displayType(currentNgon);
         }

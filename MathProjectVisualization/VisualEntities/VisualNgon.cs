@@ -14,8 +14,11 @@ namespace MathProjectVisualization.VisualEntities
     public class VisualNgon
     {
         public Ngon ngonModel;
-        PointCollection rawVerticies = new PointCollection();
+        PointCollection rawVerticies = new PointCollection();       
         PointCollection verticies = new PointCollection();
+
+        List<Line> rawVectors = new List<Line>();
+        List<Line> vectors = new List<Line>();
 
         public VisualNgon(Ngon ngon)
         {
@@ -25,7 +28,19 @@ namespace MathProjectVisualization.VisualEntities
                 Point point = new Point(vertex.coordX, vertex.coordY);
                 rawVerticies.Add(point);
             }
+            var vectors = ngonModel.getOrthonormal();
+            for (int i = 0; i < vectors[0].Length; i++)
+            {
+                Line visualVector = new Line()
+                {
+                    Y1 = 0,
+                    X1 = 0,
 
+                    Y2 = vectors[0][i],
+                    X2 = vectors[1][i]
+                };
+                rawVectors.Add(visualVector);
+            }
         }
 
         public void draw(Panel container)
@@ -87,9 +102,32 @@ namespace MathProjectVisualization.VisualEntities
             return polygon;
         }
 
-        private Point convertToContainerCoords(double width,double height, Point p)
+        public void drawVectors(Panel container)
         {
-            Point result = new Point();
+            drawVectors(container, container.ActualWidth, container.ActualHeight);
+        }
+        public void drawVectors(Panel container, double width, double height)
+        {
+            
+            for (int i = 0; i < rawVectors.Count; i++)
+            {
+                var vector = convertToContainerCoords(container, rawVectors[i]);
+                vector.StrokeThickness = 3;
+                vector.Stroke = Brushes.Black;
+                Label vertexInfo = new Label()
+                {
+                    Content = (i + " "),
+                    Margin = new Thickness(vector.X2, vector.Y2, 0, 0)
+                };
+                container.Children.Add(vector);
+                container.Children.Add(vertexInfo);
+            }
+        }
+
+        private Point convertToContainerCoords(double width,double height, Point p)
+        {            
+            Point result = new Point();            
+
             double minX = Double.MaxValue, minY = Double.MaxValue;
             double maxX = Double.MinValue, maxY = Double.MinValue;
 
@@ -107,7 +145,41 @@ namespace MathProjectVisualization.VisualEntities
             result.Y = (p.Y - minY) * scaleCoefficientY;
             return result;
         }
-         private Point convertToContainerCoords(FrameworkElement container, Point p)
+        private Point convertToContainerCoords(FrameworkElement container, Point p)
+        {
+            return convertToContainerCoords(container.ActualWidth, container.ActualHeight, p);
+        }
+
+        private Line convertToContainerCoords(double width, double height, Line rawVector)
+        {
+            Line result = new Line();
+
+            double margin = 25;
+
+            width -= margin*2;
+            height -= margin * 2;
+
+
+            double minX = rawVectors.Min(vec => vec.X2);
+            double minY = rawVectors.Min(vec => vec.Y2); 
+            double maxX = rawVectors.Max(vec => vec.X2);
+            double maxY = rawVectors.Max(vec => vec.Y2);
+
+            double scaleCoefficientX = width/(2*Math.Max(Math.Abs(maxX), Math.Abs(minX)));
+            double scaleCoefficientY = height / (2 * Math.Max(Math.Abs(maxY), Math.Abs(minY)));
+
+            double centerX = width / 2 +margin;
+            double centerY = height / 2 + margin;
+
+            result.X1 = centerX;
+            result.Y1 = centerY;           
+
+            result.X2 = centerX + (rawVector.X2* scaleCoefficientX);
+            result.Y2 = centerY + (rawVector.Y2 * scaleCoefficientY);
+
+            return result;
+        }
+        private Line convertToContainerCoords(FrameworkElement container, Line p)
         {
             return convertToContainerCoords(container.ActualWidth, container.ActualHeight, p);
         }
