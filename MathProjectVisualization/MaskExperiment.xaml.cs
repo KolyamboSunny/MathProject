@@ -28,6 +28,8 @@ namespace MathProjectVisualization
         private SignMatrix SelectedMatrix;
         NgonDatabase db;
         MaskGenerator maskGenerator;
+
+        bool convexOnly = false;
         public MaskExperiment(int dimensions)
         {
             db = new NgonDatabase(dimensions);
@@ -43,7 +45,14 @@ namespace MathProjectVisualization
             var VisualSignMatrices = new List<VisualSignMatrix>();
             foreach(var signmatrix in Edited)
             {
-                VisualSignMatrices.Add(new VisualSignMatrix(signmatrix));
+                var visual = new VisualSignMatrix(signmatrix);
+                if (convexOnly)
+                    if (visual.isConvex)
+                        VisualSignMatrices.Add(visual);
+                    else
+                        continue;
+                else
+                    VisualSignMatrices.Add(visual);
             }
             this.fullList.ItemsSource = VisualSignMatrices;
         }
@@ -82,6 +91,16 @@ namespace MathProjectVisualization
         {
             int x = 0;
             var s = (ListView)sender;
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            convexOnly = true;
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            convexOnly = false;
         }
     }
 }

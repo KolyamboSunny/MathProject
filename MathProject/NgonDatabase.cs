@@ -14,8 +14,10 @@ namespace MathProject
         public IQueryable<Ngon> Ngons;
         public IQueryable<SignMatrix> PluckerSignMatrices;
        
-        public NgonDatabase(int dimensions=5):base("name=NgonContext")            
+        public NgonDatabase(int dimensions=5) :base("name=NgonContext")//:base("name=NgonContext")
         {
+            Database.CreateIfNotExists();
+            Database.Connection.Open();            
             Ngons = NgonStorage.Where(n => n.Verticies.Count == dimensions);
             PluckerSignMatrices = PluckerSignMatricesStorage.Where(n => n.dimensions == dimensions);                       
         }

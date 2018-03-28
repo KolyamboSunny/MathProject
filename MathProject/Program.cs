@@ -15,14 +15,14 @@ namespace MathProject
         static Func<long, long> Factorial = x => x == 0 ? 1 : x + Factorial(x - 1);
         static void Main(string[] args)
         {
-            Console.WriteLine("How many dimensions are we working with?");
-            int n = Int32.Parse(Console.ReadLine());
+            //Console.WriteLine("How many dimensions are we working with?");
+            //int n = Int32.Parse(Console.ReadLine());
             //SignificantSignsExperiment e = new SignificantSignsExperiment(n);
             //e.findSignificantSigns();
-            //PopulateDatabaseWithNgons();
+            PopulateDatabaseWithNgons();
             
-            MaskExperiment6 p = new MaskExperiment6();
-            p.runExperiment6gons();
+            //MaskExperiment6 p = new MaskExperiment6();
+            //p.runExperiment6gons();
             //p.saveToHtml("Reduced2Distribution"+"" + ".html");         
             
             Console.WriteLine("DONE");
@@ -208,8 +208,7 @@ namespace MathProject
         private static void addNgonToDatabase(int n,int sampleSize= 1)
         {
             NgonDatabase database = new NgonDatabase(n);
-
-            database.Database.Connection.Open();
+            
             List<Ngon> ngons = new List<Ngon>();
             for(int i=0;i<sampleSize;i++)
             {

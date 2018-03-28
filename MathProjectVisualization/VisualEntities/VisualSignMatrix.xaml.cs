@@ -24,6 +24,7 @@ namespace MathProjectVisualization.VisualEntities.VisualSignMatrices
         public SignMatrix signmatrix;
         private Label[,] labels;
         private int LabelWidth = 30;
+        public bool isConvex;
         public VisualSignMatrix(SignMatrix signmatrix)
         {
             this.signmatrix = signmatrix;
@@ -31,6 +32,16 @@ namespace MathProjectVisualization.VisualEntities.VisualSignMatrices
             InitializeComponent();            
             displaySigns();
             colorSigns();
+            if (signmatrix.Ngons.Any(n => n.Type == MathProject.Entities.NgonType.Convex))
+            {
+                this.isConvex = true;
+                this.Background = Brushes.LightGreen;
+            }
+            else
+            {
+                this.isConvex = false;
+                this.Background = Brushes.LightCoral;
+            }
         }
         private void displaySigns()
         {
@@ -57,6 +68,9 @@ namespace MathProjectVisualization.VisualEntities.VisualSignMatrices
                     break;
                 case 5:
                     colorSigns5();
+                    break;
+                case 6:
+                    colorSigns6();
                     break;
             }
         }
@@ -89,6 +103,23 @@ namespace MathProjectVisualization.VisualEntities.VisualSignMatrices
             /*foreach (int[] pair in reduced2)
                 labels[pair[0], pair[1]].Background = Brushes.Red;
 */
+            foreach (int[] pair in full)
+                labels[pair[0], pair[1]].Background = Brushes.Green;
+
+        }
+        private void colorSigns6()
+        {
+            int[][] reduced1 = { new int[] { 1, 0 }, new int[] { 2, 1 }, new int[] { 3, 2 }, new int[] { 4, 3 }, new int[] { 5, 4 }, new int[] { 5, 0 } };
+            int[][] reduced2 = { new int[] { 3, 0 }, new int[] { 4, 1 }, new int[] { 5, 2 } };
+            int[][] full = { new int[] { 2, 0 }, new int[] { 3, 1 }, new int[] { 4, 2 }, new int[] { 5, 3 }, new int[] { 4, 0 }, new int[] { 5, 1 } };
+
+            foreach (int[] pair in reduced1)
+                labels[pair[0], pair[1]].Background = Brushes.Blue;
+
+
+            foreach (int[] pair in reduced2)
+                labels[pair[0], pair[1]].Background = Brushes.Red;
+
             foreach (int[] pair in full)
                 labels[pair[0], pair[1]].Background = Brushes.Green;
 
