@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="MathProjectVisualization.VisualEntities.DatabaseNgonSummary"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MathProjectVisualization.VisualEntities"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="200" Background="White">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Name="lab_title" Content="$DIM$GONS" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center"/>
+        <TextBlock Grid.Row="1" Name="lab_numberNgons" Text="We have $NUM_NGONS$ of them" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <TextBlock Grid.Row="2" Name="lab_numberPluckerSMs" Text="Plucker SMs: $NUM_MATRICES$" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <TextBlock Grid.Row="3" Name="lab_expectedPluckerSMs" Text="Expected SMs: $EXP_MATRICES$" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <TextBlock Grid.Row="4" Name="lab_minPluckerSMs" Text="Min number of ngons in SM: $EXP_MATRICES$" HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="WrapWithOverflow"/>
+        <TextBlock Grid.Row="5" Name="lab_maxPluckerSMs" Text="Max number of ngons in SM: $EXP_MATRICES$" HorizontalAlignment="Stretch" VerticalAlignment="Top" TextWrapping="WrapWithOverflow"/>
+        <!--<Button Name="but_add" Content="ADD" HorizontalAlignment="Center" Height="28" Margin="0,10,0,0" Grid.Row="6" VerticalAlignment="Top" Width="108" Click="but_add_Click"/>-->
+    </Grid>
+</UserControl>

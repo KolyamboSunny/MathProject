@@ -105,6 +105,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DatabaseManager.xaml.cs">
+      <DependentUpon>DatabaseManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
@@ -117,6 +120,9 @@
     <Compile Include="NgonDistribution.xaml.cs">
       <DependentUpon>NgonDistribution.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VisualEntities\DatabaseNgonSummary.xaml.cs">
+      <DependentUpon>DatabaseNgonSummary.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VisualEntities\MaskGenerator.xaml.cs">
       <DependentUpon>MaskGenerator.xaml</DependentUpon>
     </Compile>
@@ -124,6 +130,10 @@
     <Compile Include="VisualEntities\VisualSignMatrix.xaml.cs">
       <DependentUpon>VisualSignMatrix.xaml</DependentUpon>
     </Compile>
+    <Page Include="DatabaseManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -151,6 +161,10 @@
     <Page Include="NgonDistribution.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="VisualEntities\DatabaseNgonSummary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="VisualEntities\MaskGenerator.xaml">
       <Generator>MSBuild:Compile</Generator>

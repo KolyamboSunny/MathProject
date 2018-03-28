@@ -10,6 +10,6 @@
         <Button Name ="but_5gons" Content="5gons" HorizontalAlignment="Left" Height="30" Margin="41,91,0,0" VerticalAlignment="Top" Width="200" Click="but_5gons_Click"/>
         <Button x:Name ="but_4gons" Content="4gons" HorizontalAlignment="Left" Height="30" Margin="41,45,0,0" VerticalAlignment="Top" Width="200" Click="but_4gons_Click"/>
         <Button x:Name ="but_6gons" Content="6gons" HorizontalAlignment="Left" Height="30" Margin="41,138,0,0" VerticalAlignment="Top" Width="200" Click="but_6gons_Click"/>
-
+        <Button x:Name ="but_dbManager" Content="Database Manager" HorizontalAlignment="Left" Height="30" Margin="41,136,0,0" VerticalAlignment="Top" Width="200" Click="but_dbManager_Click"/>
     </Grid>
 </Window>
